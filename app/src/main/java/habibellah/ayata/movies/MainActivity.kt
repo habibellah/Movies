@@ -34,14 +34,12 @@ class MainActivity : ComponentActivity() {
                             BottomNavItem(
                                 name = "Home",
                                 route = "home",
-                                icon = Icons.Default.Home,
-                                badgeCount = 520
+                                icon = Icons.Default.Home
                                 ),
                             BottomNavItem(
                                 name = "Search",
                                 route = "search",
-                                icon = Icons.Default.Search,
-                                badgeCount = 52
+                                icon = Icons.Default.Search
                             ),
                             BottomNavItem(
                                 name = "Favorite",
