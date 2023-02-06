@@ -5,8 +5,9 @@ import habibellah.ayata.movies.data.movieDataSource.movieApi.MovieResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
+import javax.inject.Inject
 
-class MovieRepositoryImpl (private val movieApi: MovieApi): MovieRepository {
+class MovieRepositoryImpl @Inject constructor(private val movieApi: MovieApi): MovieRepository {
     override fun getMovieListByType(movieType: String): Flow<MovieState<MovieResponse?>> {
         return wrapWithFlow {
             movieApi.getMoviesListByType(movieType = movieType)
