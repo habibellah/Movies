@@ -29,13 +29,13 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
             movieRepository.getMovieListByType("popular").collect{
                 when (it) {
                     is MovieState.Loading -> {
-                        _homeState.update { homeUiState -> homeUiState.copy(onTheAir =MovieState.Loading ) }
+                        _homeState.update { homeUiState -> homeUiState.copy(popularMovie =MovieState.Loading ) }
                     }
                     is MovieState.Success -> {
                         _homeState.update { homeUiState -> homeUiState.copy(popularMovie = MovieState.Success(it.data) ) }
                     }
                     else -> {
-                        _homeState.update { homeUiState -> homeUiState.copy(onTheAir =MovieState.Error("unknown") ) }
+                        _homeState.update { homeUiState -> homeUiState.copy(popularMovie =MovieState.Error("unknown") ) }
                     }
                 }
             }
@@ -47,13 +47,13 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
             movieRepository.getMovieListByType("upcoming").collect{
                 when (it) {
                     is MovieState.Loading -> {
-                        _homeState.update { homeUiState -> homeUiState.copy(onTheAir =MovieState.Loading ) }
+                        _homeState.update { homeUiState -> homeUiState.copy(upComing =MovieState.Loading ) }
                     }
                     is MovieState.Success -> {
                         _homeState.update { homeUiState -> homeUiState.copy(upComing = MovieState.Success(it.data) ) }
                     }
                     else -> {
-                        _homeState.update { homeUiState -> homeUiState.copy(onTheAir =MovieState.Error("unknown") ) }
+                        _homeState.update { homeUiState -> homeUiState.copy(upComing =MovieState.Error("unknown") ) }
                     }
                 }
             }
@@ -65,13 +65,13 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
             movieRepository.getMovieListByType("now_playing").collect{
                 when (it) {
                     is MovieState.Loading -> {
-                        _homeState.update { homeUiState -> homeUiState.copy(onTheAir =MovieState.Loading ) }
+                        _homeState.update { homeUiState -> homeUiState.copy(nowStreaming =MovieState.Loading ) }
                     }
                     is MovieState.Success -> {
                         _homeState.update { homeUiState -> homeUiState.copy(nowStreaming = MovieState.Success(it.data) ) }
                     }
                     else -> {
-                        _homeState.update { homeUiState -> homeUiState.copy(onTheAir =MovieState.Error("unknown") ) }
+                        _homeState.update { homeUiState -> homeUiState.copy(nowStreaming =MovieState.Error("unknown") ) }
                     }
                 }
             }
@@ -82,13 +82,13 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
             movieRepository.getTrendingMovieList().collect{
                 when (it) {
                     is MovieState.Loading -> {
-                        _homeState.update { homeUiState -> homeUiState.copy(onTheAir =MovieState.Loading ) }
+                        _homeState.update { homeUiState -> homeUiState.copy(trending =MovieState.Loading ) }
                     }
                     is MovieState.Success -> {
                         _homeState.update { homeUiState -> homeUiState.copy(trending = MovieState.Success(it.data) ) }
                     }
                     else -> {
-                        _homeState.update { homeUiState -> homeUiState.copy(onTheAir =MovieState.Error("unknown") ) }
+                        _homeState.update { homeUiState -> homeUiState.copy(trending =MovieState.Error("unknown") ) }
                     }
                 }
             }
