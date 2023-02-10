@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
     fun getMovieListByType(movieType : String): Flow<MovieState<MovieResponse?>>
+    fun getTrendingMovieList(): Flow<MovieState<MovieResponse?>>
+    fun getOnTheAirTvList(): Flow<MovieState<MovieResponse?>>
 }

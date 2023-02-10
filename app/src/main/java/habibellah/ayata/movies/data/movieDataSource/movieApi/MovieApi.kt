@@ -8,10 +8,22 @@ import retrofit2.http.Query
 
 interface MovieApi {
 
-    @GET("movie/{movie_type}")
-   suspend fun getMoviesListByType(
+    @GET("movie/{movieCategory}")
+    suspend fun getMoviesListByType(
+        @Path(value = "movieCategory") movieCategory: String,
         @Query("api_key")
-        apiKey : String = BuildConfig.API_KEY,
-        @Path("movie_type") movieType : String
-    ) : Response<MovieResponse>
+        apiKey: String = BuildConfig.API_KEY,
+    ): Response<MovieResponse>
+
+    @GET("trending/all/day?")
+    suspend fun getTrendingMovieList(
+        @Query("api_key")
+        apiKey: String = BuildConfig.API_KEY,
+    ): Response<MovieResponse>
+
+    @GET("tv/on_the_air")
+    suspend fun getOnTheAirTvList(
+        @Query("api_key")
+        apiKey: String = BuildConfig.API_KEY,
+    ): Response<MovieResponse>
 }

@@ -10,10 +10,22 @@ import javax.inject.Inject
 class MovieRepositoryImpl @Inject constructor(private val movieApi: MovieApi): MovieRepository {
     override fun getMovieListByType(movieType: String): Flow<MovieState<MovieResponse?>> {
         return wrapWithFlow {
-            movieApi.getMoviesListByType(movieType = movieType)
+            movieApi.getMoviesListByType(movieCategory = movieType)
         }
+        }
+
+    override fun getTrendingMovieList(): Flow<MovieState<MovieResponse?>> {
+        return wrapWithFlow {
+            movieApi.getTrendingMovieList()
         }
     }
+
+    override fun getOnTheAirTvList(): Flow<MovieState<MovieResponse?>> {
+        return wrapWithFlow {
+            movieApi.getOnTheAirTvList()
+        }
+    }
+}
 
     fun <T> wrapWithFlow(function: suspend ()-> Response<T>) : Flow<MovieState<T?>>{
         return flow {

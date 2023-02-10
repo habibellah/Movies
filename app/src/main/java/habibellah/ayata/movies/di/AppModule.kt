@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import habibellah.ayata.movies.BuildConfig
 import habibellah.ayata.movies.data.movieDataSource.movieApi.MovieApi
+import habibellah.ayata.movies.data.repositories.MovieRepository
+import habibellah.ayata.movies.data.repositories.MovieRepositoryImpl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -23,5 +25,11 @@ fun provideMovieService() : MovieApi{
         .build()
         .create(MovieApi::class.java)
 }
+
+    @Provides
+    @Singleton
+    fun provideMovieRepositoryForHomeViewModel(movieApi: MovieApi):MovieRepository{
+        return MovieRepositoryImpl(movieApi)
+    }
 
 }
