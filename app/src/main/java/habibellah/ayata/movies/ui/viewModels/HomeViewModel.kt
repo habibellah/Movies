@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     private fun getPopularMovieLists(){
         viewModelScope.launch {
             movieRepository.getMovieListByType("popular").collect{
-                _homeState.update { homeUiState -> homeUiState.copy(popularMovie =handling(it) ) }
+                _homeState.update { homeUiState -> homeUiState.copy(popularMovie =handleMovieState(it) ) }
             }
         }
     }
@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     private fun getUpComingMovieLists(){
         viewModelScope.launch {
             movieRepository.getMovieListByType("upcoming").collect{
-                _homeState.update { homeUiState -> homeUiState.copy(upComing =handling(it) ) }
+                _homeState.update { homeUiState -> homeUiState.copy(upComing =handleMovieState(it) ) }
             }
         }
     }
@@ -43,32 +43,32 @@ class HomeViewModel @Inject constructor(private val movieRepository: MovieReposi
     private fun getNowStreamingMovieLists(){
         viewModelScope.launch {
             movieRepository.getMovieListByType("now_playing").collect{
-                _homeState.update { homeUiState -> homeUiState.copy(nowStreaming =handling(it) ) }
+                _homeState.update { homeUiState -> homeUiState.copy(nowStreaming =handleMovieState(it) ) }
             }
         }
     }
     private fun getTrendingMovieLists(){
         viewModelScope.launch {
             movieRepository.getTrendingMovieList().collect{
-                _homeState.update { homeUiState -> homeUiState.copy(trending =handling(it) ) }
+                _homeState.update { homeUiState -> homeUiState.copy(trending =handleMovieState(it) ) }
             }
         }
     }
     private fun getOnTheAirMovieLists(){
         viewModelScope.launch {
             movieRepository.getOnTheAirTvList().collect{
-                _homeState.update { homeUiState -> homeUiState.copy(onTheAir =handling(it) ) }
+                _homeState.update { homeUiState -> homeUiState.copy(onTheAir =handleMovieState(it) ) }
             }
         }
     }
 
-    private fun handling(it: MovieState<MovieResponse?>): MovieState<MovieResponse?> {
-      return  when (it) {
+    private fun handleMovieState(movieState : MovieState<MovieResponse?>): MovieState<MovieResponse?> {
+      return  when (movieState) {
             is MovieState.Loading -> {
                  MovieState.Loading
             }
             is MovieState.Success -> {
-              MovieState.Success(it.data)
+              MovieState.Success(movieState.data)
             }
             else -> {
              MovieState.Error("unknown")
