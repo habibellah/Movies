@@ -12,7 +12,8 @@ data class HomeUiState(
 
     )
 
-open class MovieUiState(
-    open val categoryName: String? = null,
-    open val imageUrl: String? = null
+ class MovieUiState(
+     val categoryName: String? = null,
+     val imageUrl: String? = null,
+     val id : Int? = null
 )

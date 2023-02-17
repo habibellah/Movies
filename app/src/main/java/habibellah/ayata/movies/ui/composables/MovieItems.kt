@@ -2,6 +2,7 @@ package habibellah.ayata.movies.ui.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,15 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
-import coil.compose.rememberAsyncImagePainter
-import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -31,7 +27,7 @@ import habibellah.ayata.movies.ui.viewModels.states.*
 import habibellah.ayata.movies.R
 
 @Composable
-fun MovieItem(movieState : MovieUiState, modifier: Modifier = Modifier,movieResponse: Int){
+fun MovieItem(movieState : MovieUiState, modifier: Modifier = Modifier,movieResponse: Int,onClick : (id : Int?)->Unit){
     if(movieResponse!=3){
         Column {
             Box {
@@ -54,6 +50,7 @@ fun MovieItem(movieState : MovieUiState, modifier: Modifier = Modifier,movieResp
                     modifier = modifier
                         .size(150.dp)
                         .clip(shape = RoundedCornerShape(30.dp))
+                        .clickable { onClick(movieState.id) }
                 )
                 movieState.categoryName?.let {
                     Text(text = it, modifier = Modifier
@@ -66,7 +63,8 @@ fun MovieItem(movieState : MovieUiState, modifier: Modifier = Modifier,movieResp
         }
     }
    else if(movieResponse == 3){
-       Image(painter = painterResource(id = R.drawable.error), contentDescription = "ok",modifier = Modifier.clip(CircleShape)
+       Image(painter = painterResource(id = R.drawable.error), contentDescription = "ok",modifier = Modifier
+           .clip(CircleShape)
            .background(Color.White)
            .size(64.dp),)
     }

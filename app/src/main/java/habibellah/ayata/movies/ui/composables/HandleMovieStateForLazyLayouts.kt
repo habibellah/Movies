@@ -14,7 +14,7 @@ import habibellah.ayata.movies.data.repositories.MovieState
 import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
 
 @Composable
- fun HandleStateForLazyGrid(movieState: MovieState<MovieResponse?>?) {
+ fun HandleStateForLazyGrid(movieState: MovieState<MovieResponse?>?,onClick : (id : Int?)->Unit) {
     LazyVerticalGrid(
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -30,7 +30,10 @@ import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
                         MovieItem(
                             movieState = it, modifier = Modifier
                                 .fillMaxWidth()
-                                .width(300.dp), 1
+                                .width(300.dp), 1,
+                            onClick = { id ->
+                                onClick(id)
+                            }
                         )
                     }
                 }
@@ -41,7 +44,10 @@ import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .width(300.dp),
-                            3
+                            3,
+                            onClick = { id ->
+                                onClick(id)
+                            }
                         )
                     }
                 }
@@ -53,7 +59,7 @@ import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
 
 
 @Composable
- fun HandleStateForLazyRow(movieState: MovieState<MovieResponse?>?) {
+ fun HandleStateForLazyRow(movieState: MovieState<MovieResponse?>?,onClick : (id : Int?)->Unit) {
     LazyRow(
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -67,7 +73,10 @@ import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
                     MovieItem(
                         movieState = it, modifier = Modifier
                             .fillMaxWidth()
-                            .width(300.dp), 1
+                            .width(300.dp), 1,
+                        onClick = { id ->
+                            onClick(id)
+                        }
                     )
                 }
             }
@@ -78,7 +87,10 @@ import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
                         modifier = Modifier
                             .fillMaxWidth()
                             .width(300.dp),
-                        3
+                        3,
+                        onClick = { id ->
+                            onClick(id)
+                        }
                     )
                 }
             }
@@ -93,7 +105,8 @@ private fun toMovieList(data: MovieResponse?): List<MovieUiState> {
         movieList.add(
             MovieUiState(
                 categoryName = data.results[i]?.originalTitle,
-                imageUrl = "https://image.tmdb.org/t/p/w500${data.results[i]?.posterPath}"
+                imageUrl = "https://image.tmdb.org/t/p/w500${data.results[i]?.posterPath}",
+                id = data.results[i]?.id
             )
         )
     }

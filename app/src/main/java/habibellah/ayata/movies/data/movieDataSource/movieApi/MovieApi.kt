@@ -26,4 +26,12 @@ interface MovieApi {
         @Query("api_key")
         apiKey: String = BuildConfig.API_KEY,
     ): Response<MovieResponse>
+
+    @GET("movie/{movieId}")
+    suspend fun getMovieDetails(
+        @Path(value = "movieId") movieId : Int,
+        @Query("api_key")
+        apiKey: String = BuildConfig.API_KEY,
+    ):Response<MovieDetailsResponse>
+
 }

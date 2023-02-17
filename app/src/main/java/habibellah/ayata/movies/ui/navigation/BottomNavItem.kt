@@ -1,4 +1,4 @@
-package habibellah.ayata.movies.ui
+package habibellah.ayata.movies.ui.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

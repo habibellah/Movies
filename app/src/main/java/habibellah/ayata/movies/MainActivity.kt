@@ -3,10 +3,7 @@ package habibellah.ayata.movies
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -14,13 +11,12 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import habibellah.ayata.movies.ui.BottomNavItem
-import habibellah.ayata.movies.ui.BottomNavigationBar
-import habibellah.ayata.movies.ui.Navigation
+import habibellah.ayata.movies.ui.navigation.BottomNavItem
+import habibellah.ayata.movies.ui.navigation.BottomNavigationBar
+import habibellah.ayata.movies.ui.navigation.Navigation
 import habibellah.ayata.movies.ui.theme.MoviesTheme
 
 @AndroidEntryPoint

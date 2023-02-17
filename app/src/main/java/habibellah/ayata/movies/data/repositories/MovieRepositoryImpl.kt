@@ -1,6 +1,7 @@
 package habibellah.ayata.movies.data.repositories
 
 import habibellah.ayata.movies.data.movieDataSource.movieApi.MovieApi
+import habibellah.ayata.movies.data.movieDataSource.movieApi.MovieDetailsResponse
 import habibellah.ayata.movies.data.movieDataSource.movieApi.MovieResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,6 +24,12 @@ class MovieRepositoryImpl @Inject constructor(private val movieApi: MovieApi): M
     override fun getOnTheAirTvList(): Flow<MovieState<MovieResponse?>> {
         return wrapWithFlow {
             movieApi.getOnTheAirTvList()
+        }
+    }
+
+    override suspend fun getMovieDetails(movieId: Int): Flow<MovieState<MovieDetailsResponse?>> {
+        return wrapWithFlow {
+            movieApi.getMovieDetails(movieId)
         }
     }
 }

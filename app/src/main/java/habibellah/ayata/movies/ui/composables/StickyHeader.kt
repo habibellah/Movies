@@ -32,8 +32,3 @@ fun StickyHeader(headerText : String, seeMore : String? = "see more"){
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun Preview(){
-StickyHeader(headerText = "popular movie")
-}
