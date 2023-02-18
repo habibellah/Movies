@@ -27,56 +27,70 @@ import habibellah.ayata.movies.ui.viewModels.states.*
 import habibellah.ayata.movies.R
 
 @Composable
-fun MovieItem(movieState : MovieUiState, modifier: Modifier = Modifier,movieResponse: Int,onClick : (id : Int?)->Unit){
-    if(movieResponse!=3){
-        Column {
-            Box {
-                SubcomposeAsyncImage( model = movieState.imageUrl,
-                    loading = {
-                        Box(modifier = Modifier
-                            .clip(CircleShape)
-                            .background(Color.White)
-                            .size(64.dp),
-                            contentAlignment = Alignment.Center){
-                            LottieAnimationView( raw =R.raw.progress_lottie,
-                                modifier = Modifier
-                                    .width(25.dp)
-                                    .height(25.dp)
-                            )
-                        }
-                    },
-                    contentScale = ContentScale.Crop,
-                    contentDescription = "movie image",
-                    modifier = modifier
-                        .size(150.dp)
-                        .clip(shape = RoundedCornerShape(30.dp))
-                        .clickable { onClick(movieState.id) }
-                )
-                movieState.categoryName?.let {
-                    Text(text = it, modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(15.dp),
-                        fontSize = 10.sp,
-                        color = white)
-                }
+fun MovieItem(
+  movieState: MovieUiState,
+  modifier: Modifier = Modifier,
+  movieResponse: Int,
+  onClick: (id: Int?) -> Unit
+) {
+  if (movieResponse != 3) {
+    Column {
+      Box {
+        SubcomposeAsyncImage(model = movieState.imageUrl,
+          loading = {
+            Box(
+              modifier = Modifier
+                .clip(CircleShape)
+                .background(Color.White)
+                .size(64.dp),
+              contentAlignment = Alignment.Center
+            ) {
+              LottieAnimationView(
+                raw = R.raw.progress_lottie,
+                modifier = Modifier
+                  .width(25.dp)
+                  .height(25.dp)
+              )
             }
+          },
+          contentScale = ContentScale.Crop,
+          contentDescription = "movie image",
+          modifier = modifier
+            .size(150.dp)
+            .clip(shape = RoundedCornerShape(30.dp))
+            .clickable { onClick(movieState.id) }
+        )
+        movieState.categoryName?.let {
+          Text(
+            text = it, modifier = Modifier
+              .align(Alignment.BottomStart)
+              .padding(15.dp),
+            fontSize = 10.sp,
+            color = white
+          )
         }
+      }
     }
-   else if(movieResponse == 3){
-       Image(painter = painterResource(id = R.drawable.error), contentDescription = "ok",modifier = Modifier
-           .clip(CircleShape)
-           .background(Color.White)
-           .size(64.dp),)
-    }
+  } else {
+    Image(
+      painter = painterResource(id = R.drawable.error), contentDescription = "ok",
+      modifier = Modifier
+        .clip(CircleShape)
+        .background(Color.White)
+        .size(64.dp),
+    )
+  }
 }
 
 @Composable
-fun LottieAnimationView(modifier: Modifier = Modifier ,raw : Int){
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(raw))
-    LottieAnimation(composition = composition,
-        modifier = modifier,
-        iterations = LottieConstants.IterateForever,
-        contentScale = ContentScale.None)
+fun LottieAnimationView(modifier: Modifier = Modifier, raw: Int) {
+  val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(raw))
+  LottieAnimation(
+    composition = composition,
+    modifier = modifier,
+    iterations = LottieConstants.IterateForever,
+    contentScale = ContentScale.None
+  )
 }
 
 

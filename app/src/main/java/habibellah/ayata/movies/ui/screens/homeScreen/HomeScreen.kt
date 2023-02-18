@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import habibellah.ayata.movies.data.movieDataSource.movieApi.MovieResponse
-import habibellah.ayata.movies.data.repositories.MovieState
+import habibellah.ayata.domain.entity.MovieResponse
+import habibellah.ayata.domain.repositories.MovieState
 import habibellah.ayata.movies.ui.composables.*
 import habibellah.ayata.movies.ui.screens.movieDetailsScreen.navigateToMovieDetailsScreen
 import habibellah.ayata.movies.ui.viewModels.HomeViewModel

@@ -1,4 +1,4 @@
-package habibellah.ayata.movies.ui.screens
+package habibellah.ayata.movies.ui.screens.favoriteScreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

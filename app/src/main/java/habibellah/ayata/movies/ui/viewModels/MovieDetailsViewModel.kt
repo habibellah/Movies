@@ -1,12 +1,10 @@
 package habibellah.ayata.movies.ui.viewModels
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import habibellah.ayata.movies.data.repositories.MovieRepository
-import habibellah.ayata.movies.data.repositories.MovieState
+import habibellah.ayata.domain.useCase.GetMovies
 import habibellah.ayata.movies.ui.screens.movieDetailsScreen.MovieDetailsArgs
 import habibellah.ayata.movies.ui.viewModels.states.MovieDetailsUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
-    savedStateHandle: SavedStateHandle
+  private val getMovies: GetMovies,
+  savedStateHandle: SavedStateHandle
     ): ViewModel() {
 
    private val _movieDetailsUiState = MutableStateFlow(MovieDetailsUiState())
@@ -32,11 +30,11 @@ class MovieDetailsViewModel @Inject constructor(
    private fun getMovieDetails(){
         viewModelScope.launch {
 
-          movieRepository.getMovieDetails(args.id).collect{
+          getMovies.getMovieDetails(args.id).collect{
                 when (it) {
-                    is MovieState.Loading -> {
+                    is habibellah.ayata.domain.repositories.MovieState.Loading -> {
                     }
-                    is MovieState.Success -> {
+                    is habibellah.ayata.domain.repositories.MovieState.Success -> {
                         _movieDetailsUiState.update { movieDetailsUiState ->
                             movieDetailsUiState.copy(
                                 movieTitle = it.data?.title,
