@@ -92,10 +92,3 @@ fun LottieAnimationView(modifier: Modifier = Modifier, raw: Int) {
     contentScale = ContentScale.None
   )
 }
-
-
-//@Preview(showSystemUi = true, showBackground = true)
-//@Composable
-//fun Preview(){
-//
-//}

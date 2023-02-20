@@ -13,11 +13,11 @@ import habibellah.ayata.movies.R
 
 @Composable
 fun LoadingMovieLists() {
-  val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.progress_movie))
-  LottieAnimation(
-    composition = composition,
-    modifier = Modifier.fillMaxSize(),
-    iterations = LottieConstants.IterateForever,
-    contentScale = ContentScale.None
-  )
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.progress_movie))
+    LottieAnimation(
+        composition = composition,
+        modifier = Modifier.fillMaxSize(),
+        iterations = LottieConstants.IterateForever,
+        contentScale = ContentScale.None
+    )
 }

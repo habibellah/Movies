@@ -16,5 +16,4 @@ object RepositoryModule {
   fun provideMovieRepositoryForHomeViewModel(movieApi: MovieApi): MovieRepository {
     return MovieRepositoryImpl(movieApi)
   }
-
 }

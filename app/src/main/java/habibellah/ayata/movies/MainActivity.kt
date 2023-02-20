@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                             ),
                             BottomNavItem(
                                 name = "Profile",
-                                route = "profile",
+                                route = "Login",
                                 icon = Icons.Default.Person
                             ),
                         ), navController = navController,

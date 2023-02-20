@@ -9,5 +9,5 @@ interface MovieRepository {
     fun getMovieListByType(movieType : String): Flow<MovieState<MovieResponse?>>
     fun getTrendingMovieList(): Flow<MovieState<MovieResponse?>>
     fun getOnTheAirTvList(): Flow<MovieState<MovieResponse?>>
-    suspend fun getMovieDetails(movieId : Int): Flow<MovieState<MovieDetailsResponse?>>
+    fun getMovieDetails(movieId : Int): Flow<MovieState<MovieDetailsResponse?>>
 }

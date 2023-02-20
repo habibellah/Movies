@@ -6,5 +6,5 @@ class GetMovies (private val movieRepository: MovieRepository) {
   fun getMovieListByType(movieType : String) = movieRepository.getMovieListByType(movieType)
   fun getTrendingMovieList() = movieRepository.getTrendingMovieList()
   fun getOnTheAirTvList() = movieRepository.getOnTheAirTvList()
-  suspend fun getMovieDetails(movieId : Int) = movieRepository.getMovieDetails(movieId)
+  fun getMovieDetails(movieId : Int) = movieRepository.getMovieDetails(movieId)
 }

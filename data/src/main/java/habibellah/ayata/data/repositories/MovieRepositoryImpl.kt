@@ -28,14 +28,14 @@ class MovieRepositoryImpl(private val movieApi: MovieApi) :
     }
   }
 
-  override suspend fun getMovieDetails(movieId: Int): Flow<MovieState<MovieDetailsResponse?>> {
+  override fun getMovieDetails(movieId: Int): Flow<MovieState<MovieDetailsResponse?>> {
     return wrapWithFlow {
       movieApi.getMovieDetails(movieId)
     }
   }
 }
 
-fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<MovieState<T?>> {
+private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<MovieState<T?>> {
   return flow {
     emit(MovieState.Loading)
     try {
