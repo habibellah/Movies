@@ -1,46 +1,60 @@
 package habibellah.ayata.movies.ui.screens.loginScreen
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
+import habibellah.ayata.domain.useCase.AuthenticationState
 import habibellah.ayata.movies.R
 import habibellah.ayata.movies.ui.composables.LottieAnimationView
+import habibellah.ayata.movies.ui.screens.signInScreen.navigateToSingInScreen
+import habibellah.ayata.movies.ui.viewModels.LoginViewModel
 
 @Composable
-fun LoginScreen() {
-    LoginScreenContent()
+fun LoginScreen(navController : NavController, viewModel : LoginViewModel = hiltViewModel()) {
+    val homeState by viewModel.authState.collectAsState()
+    LoginScreenContent({ navController.navigateToSingInScreen() }, { userName, password ->
+        viewModel.logIn(userName, password)
+    }, homeState)
 }
 
 @Composable
-private fun LoginScreenContent() {
+private fun LoginScreenContent(
+    singInClick : () -> Unit,
+    logInClick : (userName : String, password : String) -> Unit,
+    authState : AuthenticationState
+) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        if (authState == AuthenticationState.Success) {
+            Toast.makeText(LocalContext.current, "hi", Toast.LENGTH_SHORT).show()
+        }
         SubcomposeAsyncImage(
             model = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iwpPSZsnDqf52czYxFbuRgg_GbqgxUsG2g&usqp=CAU",
             loading = {
@@ -104,7 +118,7 @@ private fun LoginScreenContent() {
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
-                placeholder = { Text(text = "user name")}
+                placeholder = { Text(text = "user name") }
             )
             val password = remember {
                 mutableStateOf("")
@@ -129,11 +143,13 @@ private fun LoginScreenContent() {
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
-                placeholder = { Text(text = "passwrod")}
+                placeholder = { Text(text = "passwrod") }
             )
             Box(modifier = Modifier.padding(horizontal = 10.dp)) {
                 Button(
-                    onClick = { },
+                    onClick = {
+                        logInClick(userName.value, password.value)
+                    },
                     Modifier
                         .fillMaxWidth()
                         .height(50.dp)
@@ -143,16 +159,19 @@ private fun LoginScreenContent() {
                     Text(text = "Login", color = Color.White, fontSize = 25.sp)
                 }
             }
-            Row (horizontalArrangement = Arrangement.spacedBy(5.dp)){
+            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                 Text(text = "do not have an account?", color = Color.White)
-                Text(text = "sign up", color = Color.Red)
+                Text(
+                    text = "sign up",
+                    color = Color.Red,
+                    modifier = Modifier.clickable { singInClick() })
             }
         }
     }
 }
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun Preview() {
-    LoginScreenContent()
-}
+//
+//@Preview(showSystemUi = true, showBackground = true)
+//@Composable
+//fun Preview() {
+//    LoginScreen()
+//}

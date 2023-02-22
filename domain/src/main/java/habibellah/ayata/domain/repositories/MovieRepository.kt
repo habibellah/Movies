@@ -2,12 +2,11 @@ package habibellah.ayata.domain.repositories
 
 import habibellah.ayata.domain.entity.MovieDetailsResponse
 import habibellah.ayata.domain.entity.MovieResponse
-import kotlinx.coroutines.flow.Flow
-
+import retrofit2.Response
 
 interface MovieRepository {
-    fun getMovieListByType(movieType : String): Flow<MovieState<MovieResponse?>>
-    fun getTrendingMovieList(): Flow<MovieState<MovieResponse?>>
-    fun getOnTheAirTvList(): Flow<MovieState<MovieResponse?>>
-    fun getMovieDetails(movieId : Int): Flow<MovieState<MovieDetailsResponse?>>
+    suspend fun getMovieListByType(movieType : String) : Response<MovieResponse>
+    suspend fun getTrendingMovieList() : Response<MovieResponse>
+    suspend fun getOnTheAirTvList() : Response<MovieResponse>
+    suspend fun getMovieDetails(movieId : Int) : Response<MovieDetailsResponse>
 }

@@ -1,52 +1,22 @@
 package habibellah.ayata.data.repositories
 
-import habibellah.ayata.data.movieDataSource.remote.movieApi.MovieApi
+import habibellah.ayata.data.movieAppDataSource.remote.movieApi.MovieApi
 import habibellah.ayata.domain.entity.MovieDetailsResponse
 import habibellah.ayata.domain.entity.MovieResponse
-import habibellah.ayata.domain.repositories.MovieState
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import habibellah.ayata.domain.repositories.MovieRepository
 import retrofit2.Response
 
-class MovieRepositoryImpl(private val movieApi: MovieApi) :
-  habibellah.ayata.domain.repositories.MovieRepository {
-  override fun getMovieListByType(movieType: String): Flow<MovieState<MovieResponse?>> {
-    return wrapWithFlow {
-      movieApi.getMoviesListByType(movieCategory = movieType)
-    }
-  }
+class MovieRepositoryImpl(private val movieApi : MovieApi) :
+    MovieRepository {
+    override suspend fun getMovieListByType(movieType : String) =
+        movieApi.getMovieListByType(movieCategory = movieType)
 
-  override fun getTrendingMovieList(): Flow<MovieState<MovieResponse?>> {
-    return wrapWithFlow {
-      movieApi.getTrendingMovieList()
-    }
-  }
+    override suspend fun getTrendingMovieList() : Response<MovieResponse> =
+        movieApi.getTrendingMovieList()
 
-  override fun getOnTheAirTvList(): Flow<MovieState<MovieResponse?>> {
-    return wrapWithFlow {
-      movieApi.getOnTheAirTvList()
-    }
-  }
+    override suspend fun getOnTheAirTvList() : Response<MovieResponse> =
+        movieApi.getOnTheAirTvList()
 
-  override fun getMovieDetails(movieId: Int): Flow<MovieState<MovieDetailsResponse?>> {
-    return wrapWithFlow {
-      movieApi.getMovieDetails(movieId)
-    }
-  }
-}
-
-private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<MovieState<T?>> {
-  return flow {
-    emit(MovieState.Loading)
-    try {
-      val result = function()
-      if (result.isSuccessful) {
-        emit(MovieState.Success(result.body()))
-      } else {
-        emit(MovieState.Error(result.message()))
-      }
-    } catch (e: Exception) {
-      emit(MovieState.Error(e.message.toString()))
-    }
-  }
+    override suspend fun getMovieDetails(movieId : Int) : Response<MovieDetailsResponse> =
+        movieApi.getMovieDetails(movieId = movieId)
 }

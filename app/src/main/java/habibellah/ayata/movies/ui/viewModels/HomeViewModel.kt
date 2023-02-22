@@ -4,15 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import habibellah.ayata.domain.entity.MovieResponse
-import habibellah.ayata.domain.repositories.MovieState
-import habibellah.ayata.domain.useCase.GetMovies
+import habibellah.ayata.domain.useCase.MovieState
+import habibellah.ayata.domain.useCase.GetMoviesUseCase
 import habibellah.ayata.movies.ui.viewModels.states.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val getMovies: GetMovies) :
+class HomeViewModel @Inject constructor(private val getMoviesUseCase: GetMoviesUseCase) :
   ViewModel() {
   private val _homeState = MutableStateFlow(HomeUiState())
   val homeState = _homeState.asStateFlow()
@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(private val getMovies: GetMovies) :
 
   private fun getPopularMovieLists() {
     viewModelScope.launch {
-      getMovies.getMovieListByType("popular").collect {
+      getMoviesUseCase.getMovieListByType("popular").collect {
         _homeState.update { homeUiState -> homeUiState.copy(popularMovie = handleMovieState(it)) }
       }
     }
@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(private val getMovies: GetMovies) :
 
   private fun getUpComingMovieLists() {
     viewModelScope.launch {
-      getMovies.getMovieListByType("upcoming").collect {
+      getMoviesUseCase.getMovieListByType("upcoming").collect {
         _homeState.update { homeUiState -> homeUiState.copy(upComing = handleMovieState(it)) }
       }
     }
@@ -44,7 +44,7 @@ class HomeViewModel @Inject constructor(private val getMovies: GetMovies) :
 
   private fun getNowStreamingMovieLists() {
     viewModelScope.launch {
-      getMovies.getMovieListByType("now_playing").collect {
+      getMoviesUseCase.getMovieListByType("now_playing").collect {
         _homeState.update { homeUiState -> homeUiState.copy(nowStreaming = handleMovieState(it)) }
       }
     }
@@ -52,7 +52,7 @@ class HomeViewModel @Inject constructor(private val getMovies: GetMovies) :
 
   private fun getTrendingMovieLists() {
     viewModelScope.launch {
-      getMovies.getTrendingMovieList().collect {
+      getMoviesUseCase.getTrendingMovieList().collect {
         _homeState.update { homeUiState -> homeUiState.copy(trending = handleMovieState(it)) }
       }
     }
@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(private val getMovies: GetMovies) :
 
   private fun getOnTheAirMovieLists() {
     viewModelScope.launch {
-      getMovies.getOnTheAirTvList().collect {
+      getMoviesUseCase.getOnTheAirTvList().collect {
         _homeState.update { homeUiState -> homeUiState.copy(onTheAir = handleMovieState(it)) }
       }
     }

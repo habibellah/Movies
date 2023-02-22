@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import habibellah.ayata.domain.entity.MovieResponse
-import habibellah.ayata.domain.repositories.MovieState
+import habibellah.ayata.domain.useCase.MovieState
 import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
 
 @Composable
