@@ -1,6 +1,6 @@
 package habibellah.ayata.movies.ui.screens.loginScreen
 
-import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,7 +19,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +28,7 @@ import coil.compose.SubcomposeAsyncImage
 import habibellah.ayata.domain.useCase.AuthenticationState
 import habibellah.ayata.movies.R
 import habibellah.ayata.movies.ui.composables.LottieAnimationView
+import habibellah.ayata.movies.ui.screens.profileScreen.navigateToProfileScreen
 import habibellah.ayata.movies.ui.screens.signInScreen.navigateToSingInScreen
 import habibellah.ayata.movies.ui.viewModels.LoginViewModel
 
@@ -37,24 +37,27 @@ fun LoginScreen(navController : NavController, viewModel : LoginViewModel = hilt
     val homeState by viewModel.authState.collectAsState()
     LoginScreenContent({ navController.navigateToSingInScreen() }, { userName, password ->
         viewModel.logIn(userName, password)
-    }, homeState)
+    }, homeState, { navController.navigateToProfileScreen() })
 }
 
 @Composable
 private fun LoginScreenContent(
     singInClick : () -> Unit,
     logInClick : (userName : String, password : String) -> Unit,
-    authState : AuthenticationState
+    authState : AuthenticationState,
+    navigateToProfileScreen : () -> Unit,
 ) {
+    LaunchedEffect(authState == AuthenticationState.Success) {
+        if(authState == AuthenticationState.Success) {
+            navigateToProfileScreen()
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (authState == AuthenticationState.Success) {
-            Toast.makeText(LocalContext.current, "hi", Toast.LENGTH_SHORT).show()
-        }
         SubcomposeAsyncImage(
             model = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_iwpPSZsnDqf52czYxFbuRgg_GbqgxUsG2g&usqp=CAU",
             loading = {
@@ -157,6 +160,10 @@ private fun LoginScreenContent(
                     colors = ButtonDefaults.buttonColors(Color.Red)
                 ) {
                     Text(text = "Login", color = Color.White, fontSize = 25.sp)
+                    AnimatedVisibility(authState == AuthenticationState.Loading) {
+                        LottieAnimationView(raw = R.raw.progress_lottie)
+                    }
+
                 }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {

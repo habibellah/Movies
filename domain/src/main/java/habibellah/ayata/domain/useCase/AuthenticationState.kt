@@ -1,5 +1,5 @@
 package habibellah.ayata.domain.useCase
 
 enum class AuthenticationState {
-    Loading,Error,Success
+    Loading,Error,Success,BeforeLoginClick
 }

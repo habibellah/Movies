@@ -7,10 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -49,11 +46,7 @@ class MainActivity : ComponentActivity() {
                                 route = "favorite",
                                 icon = Icons.Default.Favorite
                             ),
-                            BottomNavItem(
-                                name = "Profile",
-                                route = if (userInfoViewModel.getUserName() == null) "Login" else "Profile",
-                                icon = Icons.Default.Person
-                            ),
+                            profileOrLoginScreen(userInfoViewModel.getUserName()),
                         ), navController = navController,
                             onItemClick = {
                                 navController.navigate(it.route)
@@ -64,6 +57,23 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+}
+
+fun profileOrLoginScreen(userName : String?) : BottomNavItem {
+    return if (userName != null) {
+        BottomNavItem(
+            name = "Profile",
+            route = "profile",
+            icon = Icons.Default.Person
+        )
+    } else {
+        BottomNavItem(
+            name = "Login",
+            route = "Login",
+            icon = Icons.Default.Close
+        )
+
     }
 }
 

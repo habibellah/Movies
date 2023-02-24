@@ -1,6 +1,5 @@
 package habibellah.ayata.movies.ui.viewModels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,21 +15,20 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val validateUserInfoUseCase : ValidateUserInfoUseCase
 ) : ViewModel() {
-    private val _authState:MutableStateFlow<AuthenticationState> = MutableStateFlow(AuthenticationState.Loading)
+    private val _authState : MutableStateFlow<AuthenticationState> =
+        MutableStateFlow(AuthenticationState.BeforeLoginClick)
     val authState = _authState.asStateFlow()
     fun logIn(userName : String, password : String) {
         viewModelScope.launch {
             validateUserInfoUseCase.login(userName, password).collect {
-                when(it){
-                    is MovieState.Loading ->{
-                        Log.e("hanihna","load")
-          _authState.emit(AuthenticationState.Loading)
+                when (it) {
+                    is MovieState.Loading -> {
+                        _authState.emit(AuthenticationState.Loading)
                     }
-                    is MovieState.Success ->{
-                        Log.e("hanihna","succ")
+                    is MovieState.Success -> {
                         _authState.emit(it.data!!)
                     }
-                    is MovieState.Error ->{
+                    is MovieState.Error -> {
                         _authState.emit(AuthenticationState.Error)
                     }
                 }
