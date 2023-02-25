@@ -1,6 +1,5 @@
 package habibellah.ayata.movies.ui.viewModels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,6 +11,9 @@ import habibellah.ayata.movies.ui.viewModels.states.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import habibellah.ayata.domain.entity.Result
+import habibellah.ayata.domain.entity.ResultX
+import habibellah.ayata.movies.ui.ShowType
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val getMoviesUseCase : GetMoviesUseCase) :
@@ -124,15 +126,15 @@ class HomeViewModel @Inject constructor(private val getMoviesUseCase : GetMovies
         }
     }
 
-    private fun toMovieList(results : List<habibellah.ayata.domain.entity.Result?>?) : MutableList<MovieUiState>? {
+    private fun toMovieList(results : List<Result?>?) : MutableList<MovieUiState>? {
         return results?.map {
-            MovieUiState(it?.title, "https://image.tmdb.org/t/p/w500${it?.posterPath}", it?.id)
+            MovieUiState(it?.title, "https://image.tmdb.org/t/p/w500${it?.posterPath}", it?.id,ShowType.MOVIE)
         }?.toMutableList()
     }
 
-    private fun toTvShowList(results : List<habibellah.ayata.domain.entity.ResultX?>?) : MutableList<MovieUiState>? {
+    private fun toTvShowList(results : List<ResultX?>?) : MutableList<MovieUiState>? {
         return results?.map {
-            MovieUiState(it?.name, "https://image.tmdb.org/t/p/w500${it?.posterPath}", it?.id)
+            MovieUiState(it?.name, "https://image.tmdb.org/t/p/w500${it?.posterPath}", it?.id,ShowType.TV_SHOW)
         }?.toMutableList()
     }
 }

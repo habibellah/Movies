@@ -24,13 +24,14 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import habibellah.ayata.movies.ui.theme.white
 import habibellah.ayata.movies.ui.viewModels.states.*
 import habibellah.ayata.movies.R
+import habibellah.ayata.movies.ui.ShowType
 
 @Composable
 fun MovieItem(
   movieState: MovieUiState,
   modifier: Modifier = Modifier,
   movieResponse: Int,
-  onClick: (id: Int?) -> Unit
+  onClick: (id: Int?,filmType : ShowType) -> Unit
 ) {
   if (movieResponse != 3) {
     Column {
@@ -56,7 +57,7 @@ fun MovieItem(
           modifier = modifier
             .size(150.dp)
             .clip(shape = RoundedCornerShape(30.dp))
-            .clickable { onClick(movieState.id) }
+            .clickable { onClick(movieState.id,movieState.type) }
         )
         movieState.categoryName?.let {
           Text(

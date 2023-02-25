@@ -41,7 +41,7 @@ interface MovieApi {
         @Path(value = "tvId") tvId : Int,
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
-    ) : Response<MovieDetailsResponse>
+    ) : Response<TvShowDetailsResponse>
 
     @GET("authentication/token/new")
     suspend fun getRequestToken(

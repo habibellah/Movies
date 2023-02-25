@@ -1,5 +1,7 @@
 package habibellah.ayata.movies.ui.viewModels.states
 
+import habibellah.ayata.movies.ui.ShowType
+
 data class HomeUiState(
     val popularMovie : MutableList<MovieUiState>? = mutableListOf(),
     val onTheAir : MutableList<MovieUiState>? = mutableListOf(),
@@ -13,5 +15,6 @@ data class HomeUiState(
 class MovieUiState(
     val categoryName : String? = null,
     val imageUrl : String? = null,
-    val id : Int? = null
+    val id : Int? = null,
+    val type : ShowType
 )

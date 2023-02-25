@@ -7,12 +7,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import habibellah.ayata.movies.ui.ShowType
 import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
 
 @Composable
 fun HandleStateForLazyRow(
     movieState : MutableList<MovieUiState>?,
-    onClick : (id : Int?) -> Unit,
+    onClick : (id : Int?,filmType : ShowType) -> Unit,
     modifier : Modifier = Modifier
 ) {
     LazyRow(
@@ -27,13 +28,13 @@ fun HandleStateForLazyRow(
             } else {
                 AnimatedVisibility(true) {
                     MovieItem(
-                        movieState = MovieUiState(categoryName = "loading", imageUrl = ""),
+                        movieState = MovieUiState(categoryName = "loading", imageUrl = "", type = ShowType.MOVIE),
                         modifier = modifier
                             .fillMaxWidth()
                             .width(150.dp),
                         3,
-                        onClick = { id ->
-                            onClick(id)
+                        onClick = { id,filmType ->
+                            onClick(id,filmType)
                         }
                     )
                 }
@@ -46,8 +47,8 @@ fun HandleStateForLazyRow(
                         movieState = it, modifier
                             .fillMaxWidth()
                             .width(150.dp), 1,
-                        onClick = { id ->
-                            onClick(id)
+                        onClick =  { id,filmType ->
+                            onClick(id,filmType)
                         }
                     )
                 }

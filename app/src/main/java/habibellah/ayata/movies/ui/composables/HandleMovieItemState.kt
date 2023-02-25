@@ -1,17 +1,17 @@
 package habibellah.ayata.movies.ui.composables
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import habibellah.ayata.movies.ui.ShowType
 import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
 
 @Composable
 fun HandleTvShowItemState(
     popularTvShow : MutableList<MovieUiState>?,
-    onClick : (id : Int?) -> Unit
+    onClick : (id : Int?, filmType : ShowType) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -35,7 +35,7 @@ fun HandleTvShowItemState(
 @Composable
 private fun HandleTvShowState(
     tvShow : MutableList<MovieUiState>?,
-    onClick : (id : Int?) -> Unit,
+    onClick : (id : Int?, filmType : ShowType) -> Unit,
     modifier : Modifier = Modifier,
     numberOfTvShow : Int
 ) {
@@ -46,13 +46,13 @@ private fun HandleTvShowState(
     } else {
         AnimatedVisibility(true) {
             MovieItem(
-                movieState = MovieUiState(categoryName = "loading", imageUrl = ""),
+                movieState = MovieUiState(categoryName = "loading", imageUrl = "", type = ShowType.TV_SHOW),
                 modifier = modifier
                     .fillMaxWidth()
                     .width(150.dp),
                 3,
-                onClick = { id ->
-                    onClick(id)
+                onClick = { id, filmType ->
+                    onClick(id, filmType)
                 }
             )
         }
@@ -63,8 +63,8 @@ private fun HandleTvShowState(
                 movieState = tvShow[numberOfTvShow], modifier
                     .fillMaxWidth()
                     .width(150.dp), 1,
-                onClick = { id ->
-                    onClick(id)
+                onClick ={ id, filmType ->
+                    onClick(id, filmType)
                 }
             )
         }
