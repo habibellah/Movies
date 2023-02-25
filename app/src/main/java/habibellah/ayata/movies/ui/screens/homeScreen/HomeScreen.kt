@@ -40,11 +40,12 @@ private fun HomeScreenContent(homeState : HomeUiState, onClick : (id : Int?) -> 
         stickyHeader {
             StickyHeader(headerText = "tv shows", null)
         }
-//        item {
-//            HandleTvShowItemState(popularTvShow = homeState.popularTvShow, onClick = { id ->
-//                onClick(id)
-//            })
-//        }
+        item {
+
+            HandleTvShowItemState(popularTvShow = homeState.popularTvShow, onClick = { id ->
+                onClick(id)
+            })
+        }
         stickyHeader {
             StickyHeader(headerText = "trending", null)
         }

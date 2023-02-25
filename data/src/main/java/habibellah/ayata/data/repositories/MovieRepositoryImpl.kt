@@ -3,6 +3,7 @@ package habibellah.ayata.data.repositories
 import habibellah.ayata.data.movieAppDataSource.remote.movieApi.MovieApi
 import habibellah.ayata.domain.entity.MovieDetailsResponse
 import habibellah.ayata.domain.entity.MovieResponse
+import habibellah.ayata.domain.entity.TvShowsResponse
 import habibellah.ayata.domain.repositories.MovieRepository
 import retrofit2.Response
 
@@ -20,5 +21,5 @@ class MovieRepositoryImpl(private val movieApi : MovieApi) :
     override suspend fun getMovieDetails(movieId : Int) : Response<MovieDetailsResponse> =
         movieApi.getMovieDetails(movieId = movieId)
 
-    override suspend fun getPopularTvShow() : Response<MovieResponse> = movieApi.getPopularTvShow()
+    override suspend fun getPopularTvShow() : Response<TvShowsResponse> = movieApi.getPopularTvShow()
 }

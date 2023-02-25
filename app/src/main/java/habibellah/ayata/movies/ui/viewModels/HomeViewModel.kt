@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import habibellah.ayata.domain.entity.MovieResponse
+import habibellah.ayata.domain.entity.TvShowsResponse
 import habibellah.ayata.domain.useCase.MovieState
 import habibellah.ayata.domain.useCase.GetMoviesUseCase
 import habibellah.ayata.movies.ui.viewModels.states.*
@@ -91,14 +92,7 @@ class HomeViewModel @Inject constructor(private val getMoviesUseCase : GetMovies
     private fun getPopularTvShow() {
         viewModelScope.launch {
             getMoviesUseCase.getPopularTvShow().collect {
-                _homeState.update { homeUiState ->
-                    homeUiState.copy(
-                        popularTvShow = handleMovieState(
-                            it
-                        )
-                    )
-                }
-            }
+                _homeState.update { homeUiState -> homeUiState.copy(popularTvShow = handleTVState(it)) } }
         }
     }
 
@@ -116,9 +110,29 @@ class HomeViewModel @Inject constructor(private val getMoviesUseCase : GetMovies
         }
     }
 
+    private fun handleTVState(movieState : MovieState<TvShowsResponse?>) : MutableList<MovieUiState>? {
+        return when (movieState) {
+            is MovieState.Loading -> {
+                mutableListOf()
+            }
+            is MovieState.Success -> {
+                toTvShowList(movieState.data?.results)
+            }
+            else -> {
+                null
+            }
+        }
+    }
+
     private fun toMovieList(results : List<habibellah.ayata.domain.entity.Result?>?) : MutableList<MovieUiState>? {
         return results?.map {
             MovieUiState(it?.title, "https://image.tmdb.org/t/p/w500${it?.posterPath}", it?.id)
+        }?.toMutableList()
+    }
+
+    private fun toTvShowList(results : List<habibellah.ayata.domain.entity.ResultX?>?) : MutableList<MovieUiState>? {
+        return results?.map {
+            MovieUiState(it?.name, "https://image.tmdb.org/t/p/w500${it?.posterPath}", it?.id)
         }?.toMutableList()
     }
 }

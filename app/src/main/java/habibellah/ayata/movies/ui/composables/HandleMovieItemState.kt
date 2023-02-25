@@ -19,39 +19,46 @@ fun HandleTvShowItemState(
             .fillMaxHeight(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        HandleTvShowState(tvShow = popularTvShow, onClick = onClick, modifier = Modifier.height (305.dp)
-            .width(150.dp),0)
-        HandleTvShowState(tvShow = popularTvShow, onClick = onClick, modifier = Modifier.height (305.dp)
-            .width(150.dp),1)
+        HandleTvShowState(
+            tvShow = popularTvShow, onClick = onClick, modifier = Modifier
+                .height(305.dp)
+                .width(150.dp), 0
+        )
+        HandleTvShowState(
+            tvShow = popularTvShow, onClick = onClick, modifier = Modifier
+                .height(305.dp)
+                .width(150.dp), 1
+        )
     }
 }
 
 @Composable
-private fun  HandleTvShowState(
+private fun HandleTvShowState(
     tvShow : MutableList<MovieUiState>?,
     onClick : (id : Int?) -> Unit,
     modifier : Modifier = Modifier,
     numberOfTvShow : Int
 ) {
-        if (tvShow != null) {
-            AnimatedVisibility(tvShow.isEmpty()) {
-                LoadingMovieLists()
-            }
-        } else {
-            AnimatedVisibility(true) {
-                MovieItem(
-                    movieState = MovieUiState(categoryName = "loading", imageUrl = ""),
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .width(150.dp),
-                    3,
-                    onClick = { id ->
-                        onClick(id)
-                    }
-                )
-            }
-        }
     if (tvShow != null) {
+        AnimatedVisibility(tvShow.isEmpty()) {
+            LoadingMovieLists()
+        }
+    } else {
+        AnimatedVisibility(true) {
+            MovieItem(
+                movieState = MovieUiState(categoryName = "loading", imageUrl = ""),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .width(150.dp),
+                3,
+                onClick = { id ->
+                    onClick(id)
+                }
+            )
+        }
+    }
+    if (tvShow != null) {
+        if (tvShow.isNotEmpty()) {
             MovieItem(
                 movieState = tvShow[numberOfTvShow], modifier
                     .fillMaxWidth()
@@ -60,5 +67,6 @@ private fun  HandleTvShowState(
                     onClick(id)
                 }
             )
+        }
     }
 }

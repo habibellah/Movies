@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
 
-
 @Composable
 fun HandleStateForLazyRow(
     movieState : MutableList<MovieUiState>?,
@@ -41,15 +40,17 @@ fun HandleStateForLazyRow(
             }
         }
         if (movieState != null) {
-            items(movieState.toList()) {
-                MovieItem(
-                    movieState = it, modifier
-                        .fillMaxWidth()
-                        .width(150.dp), 1,
-                    onClick = { id ->
-                        onClick(id)
-                    }
-                )
+            if (movieState.isNotEmpty()) {
+                items(movieState.toList()) {
+                    MovieItem(
+                        movieState = it, modifier
+                            .fillMaxWidth()
+                            .width(150.dp), 1,
+                        onClick = { id ->
+                            onClick(id)
+                        }
+                    )
+                }
             }
         }
     }

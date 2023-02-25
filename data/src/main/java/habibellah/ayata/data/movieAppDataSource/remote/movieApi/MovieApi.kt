@@ -74,7 +74,7 @@ interface MovieApi {
     suspend fun getPopularTvShow(
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
-    ) : Response<MovieResponse>
+    ) : Response<TvShowsResponse>
 
     @GET("movie/{movie_id}/similar")
     suspend fun getSimilarMovies(
