@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +39,6 @@ fun MovieItem(
           loading = {
             Box(
               modifier = Modifier
-                .clip(CircleShape)
                 .background(Color.White)
                 .size(64.dp),
               contentAlignment = Alignment.Center
@@ -75,9 +73,9 @@ fun MovieItem(
     Image(
       painter = painterResource(id = R.drawable.error), contentDescription = "ok",
       modifier = Modifier
-        .clip(CircleShape)
-        .background(Color.White)
-        .size(64.dp),
+        .background(Color.Black)
+        .size(100.dp),
+      alignment = Alignment.TopCenter
     )
   }
 }

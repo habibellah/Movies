@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,7 +40,6 @@ fun MovieDetailsItem(
           loading = {
             Box(
               modifier = Modifier
-                .clip(CircleShape)
                 .background(Color.White)
                 .align(Alignment.Center)
                 .size(64.dp),
@@ -77,8 +77,9 @@ fun MovieDetailsItem(
               .width(150.dp),
             colors = ButtonDefaults.buttonColors(
               backgroundColor = colorResource(id = R.color.red_movie)
-            )
+            ),
           ) {
+            Icon(painter = painterResource(id = R.drawable.play_trailer), contentDescription = "play icon")
             Text(text = "play trailer", modifier = Modifier.background(Color.Red), fontSize = 15.sp)
           }
         }

@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 
 class GetMoviesUseCase(private val movieRepository : MovieRepository) {
-    fun getMovieListByType(movieType : String) : Flow<MovieState<MovieResponse?>> {
+    fun getMovieListByCategory(movieCategory : String) : Flow<MovieState<MovieResponse?>> {
         return wrapWithFlow {
-            movieRepository.getMovieListByType(movieType = movieType)
+            movieRepository.getMovieListByCategory(movieCategory = movieCategory)
         }
     }
 
@@ -29,6 +29,12 @@ class GetMoviesUseCase(private val movieRepository : MovieRepository) {
     fun getMovieDetails(movieId : Int) : Flow<MovieState<MovieDetailsResponse?>> {
         return wrapWithFlow {
             movieRepository.getMovieDetails(movieId)
+        }
+    }
+
+    suspend fun getPopularTvShow():Flow<MovieState<MovieResponse?>>{
+        return wrapWithFlow {
+            movieRepository.getPopularTvShow()
         }
     }
 

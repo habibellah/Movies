@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 interface MovieApi {
     @GET("movie/{movieCategory}")
-    suspend fun getMovieListByType(
+    suspend fun getMovieListByCategory(
         @Path(value = "movieCategory") movieCategory : String,
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
@@ -23,15 +23,22 @@ interface MovieApi {
         apiKey : String = BuildConfig.API_KEY,
     ) : Response<MovieResponse>
 
+    @GET("movie/{movieId}")
+    suspend fun getMovieDetails(
+        @Path(value = "movieId") movieId : Int,
+        @Query("api_key")
+        apiKey : String = BuildConfig.API_KEY,
+    ) : Response<MovieDetailsResponse>
+
     @GET("tv/on_the_air")
     suspend fun getOnTheAirTvList(
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
     ) : Response<MovieResponse>
 
-    @GET("movie/{movieId}")
-    suspend fun getMovieDetails(
-        @Path(value = "movieId") movieId : Int,
+    @GET("tv/{tvId}")
+    suspend fun getTvShowDetails(
+        @Path(value = "tvId") tvId : Int,
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
     ) : Response<MovieDetailsResponse>
@@ -62,4 +69,17 @@ interface MovieApi {
         apiKey : String = BuildConfig.API_KEY,
         @Query("session_id") session_id : String
     ) : Response<AccountResponse>
+
+    @GET("tv/popular")
+    suspend fun getPopularTvShow(
+        @Query("api_key")
+        apiKey : String = BuildConfig.API_KEY,
+    ) : Response<MovieResponse>
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun getSimilarMovies(
+        @Path(value = "movie_id") movieId : Int,
+        @Query("api_key")
+        apiKey : String = BuildConfig.API_KEY,
+    ) : Response<SimilarMoviesResponse>
 }

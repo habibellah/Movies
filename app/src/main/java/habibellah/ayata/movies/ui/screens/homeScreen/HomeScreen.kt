@@ -1,5 +1,6 @@
 package habibellah.ayata.movies.ui.screens.homeScreen
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,8 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import habibellah.ayata.domain.entity.MovieResponse
-import habibellah.ayata.domain.useCase.MovieState
 import habibellah.ayata.movies.ui.composables.*
 import habibellah.ayata.movies.ui.screens.movieDetailsScreen.navigateToMovieDetailsScreen
 import habibellah.ayata.movies.ui.viewModels.HomeViewModel
@@ -39,10 +38,18 @@ private fun HomeScreenContent(homeState : HomeUiState, onClick : (id : Int?) -> 
             })
         }
         stickyHeader {
+            StickyHeader(headerText = "tv shows", null)
+        }
+//        item {
+//            HandleTvShowItemState(popularTvShow = homeState.popularTvShow, onClick = { id ->
+//                onClick(id)
+//            })
+//        }
+        stickyHeader {
             StickyHeader(headerText = "trending", null)
         }
         item {
-            TrendingLazyGrid(homeState.trending, onClick = { id ->
+            TrendingLazyRow(homeState.trending, onClick = { id ->
                 onClick(id)
             })
         }
@@ -71,28 +78,37 @@ private fun HomeScreenContent(homeState : HomeUiState, onClick : (id : Int?) -> 
                 onClick(id)
             })
         }
+
+        stickyHeader {
+            StickyHeader(headerText = "Top Rated")
+        }
+        item {
+            TopRatedLazyRow(homeState.topRated, onClick = { id ->
+                onClick(id)
+            })
+        }
     }
 }
 
 @Composable
 fun PopularMovieLazyRow(
-    popularMovieState : MovieState<MovieResponse?>?,
+    popularMovieState : MutableList<MovieUiState>?,
     onClick : (id : Int?) -> Unit
 ) {
     HandleStateForLazyRow(movieState = popularMovieState, onClick = { id ->
         onClick(id)
-    })
+    }, modifier = Modifier.width(300.dp))
 }
 
 @Composable
-fun TrendingLazyGrid(tvShowsState : MovieState<MovieResponse?>?, onClick : (id : Int?) -> Unit) {
-    HandleStateForLazyGrid(movieState = tvShowsState, onClick = { id ->
+fun TrendingLazyRow(trendingMovies : MutableList<MovieUiState>?, onClick : (id : Int?) -> Unit) {
+    HandleStateForLazyRow(movieState = trendingMovies, onClick = { id ->
         onClick(id)
     })
 }
 
 @Composable
-fun OnTheAirLazyRow(onTheAirState : MovieState<MovieResponse?>?, onClick : (id : Int?) -> Unit) {
+fun OnTheAirLazyRow(onTheAirState : MutableList<MovieUiState>?, onClick : (id : Int?) -> Unit) {
     HandleStateForLazyRow(movieState = onTheAirState, onClick = { id ->
         onClick(id)
     })
@@ -100,7 +116,7 @@ fun OnTheAirLazyRow(onTheAirState : MovieState<MovieResponse?>?, onClick : (id :
 
 @Composable
 fun NowStreamingLazyRow(
-    nowStreamingState : MovieState<MovieResponse?>?,
+    nowStreamingState : MutableList<MovieUiState>?,
     onClick : (id : Int?) -> Unit
 ) {
     HandleStateForLazyRow(movieState = nowStreamingState, onClick = { id ->
@@ -109,9 +125,15 @@ fun NowStreamingLazyRow(
 }
 
 @Composable
-fun UpComingLazyRow(upComingState : MovieState<MovieResponse?>?, onClick : (id : Int?) -> Unit) {
+fun UpComingLazyRow(upComingState : MutableList<MovieUiState>?, onClick : (id : Int?) -> Unit) {
     HandleStateForLazyRow(movieState = upComingState, onClick = { id ->
         onClick(id)
     })
 }
 
+@Composable
+fun TopRatedLazyRow(topRated : MutableList<MovieUiState>?, onClick : (id : Int?) -> Unit) {
+    HandleStateForLazyRow(movieState = topRated, onClick = { id ->
+        onClick(id)
+    })
+}

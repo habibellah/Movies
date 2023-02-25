@@ -161,9 +161,8 @@ private fun LoginScreenContent(
                 ) {
                     Text(text = "Login", color = Color.White, fontSize = 25.sp)
                     AnimatedVisibility(authState == AuthenticationState.Loading) {
-                        LottieAnimationView(raw = R.raw.progress_lottie)
+                        LottieAnimationView(raw = R.raw.progress_lottie, modifier = Modifier.size(25.dp))
                     }
-
                 }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
@@ -176,9 +175,3 @@ private fun LoginScreenContent(
         }
     }
 }
-//
-//@Preview(showSystemUi = true, showBackground = true)
-//@Composable
-//fun Preview() {
-//    LoginScreen()
-//}

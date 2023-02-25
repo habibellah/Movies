@@ -8,8 +8,8 @@ import retrofit2.Response
 
 class MovieRepositoryImpl(private val movieApi : MovieApi) :
     MovieRepository {
-    override suspend fun getMovieListByType(movieType : String) =
-        movieApi.getMovieListByType(movieCategory = movieType)
+    override suspend fun getMovieListByCategory(movieCategory : String) =
+        movieApi.getMovieListByCategory(movieCategory = movieCategory)
 
     override suspend fun getTrendingMovieList() : Response<MovieResponse> =
         movieApi.getTrendingMovieList()
@@ -19,4 +19,6 @@ class MovieRepositoryImpl(private val movieApi : MovieApi) :
 
     override suspend fun getMovieDetails(movieId : Int) : Response<MovieDetailsResponse> =
         movieApi.getMovieDetails(movieId = movieId)
+
+    override suspend fun getPopularTvShow() : Response<MovieResponse> = movieApi.getPopularTvShow()
 }

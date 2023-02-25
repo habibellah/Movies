@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import habibellah.ayata.domain.entity.Genre
 import habibellah.ayata.domain.useCase.GetMoviesUseCase
 import habibellah.ayata.domain.useCase.MovieState
 import habibellah.ayata.movies.ui.screens.movieDetailsScreen.MovieDetailsArgs
@@ -30,7 +31,6 @@ class MovieDetailsViewModel @Inject constructor(
     }
    private fun getMovieDetails(){
         viewModelScope.launch {
-
           getMoviesUseCase.getMovieDetails(args.id).collect{
                 when (it) {
                     is MovieState.Loading -> {
@@ -40,7 +40,11 @@ class MovieDetailsViewModel @Inject constructor(
                             movieDetailsUiState.copy(
                                 movieTitle = it.data?.title,
                                 overView = it.data?.overview,
-                                imagePath = it.data?.posterPath
+                                imagePath = it.data?.posterPath,
+                                releaseDate = it.data?.releaseDate,
+                                genre = returnGenres(it.data?.genres),
+                                voteAverage = it.data?.voteAverage,
+                                voteCount = it.data?.voteCount
                             )
                         }
                     }
@@ -50,5 +54,15 @@ class MovieDetailsViewModel @Inject constructor(
 
             }
         }
+    }
+
+    private fun returnGenres(genres : List<Genre?>?):String{
+        var allGenres : String? = ""
+        genres?.forEach{
+            if (it != null) {
+                allGenres="${allGenres},${it.name}"
+            }
+        }
+        return allGenres.toString()
     }
 }
