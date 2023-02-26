@@ -32,7 +32,6 @@ class MovieDetailsViewModel @Inject constructor(
     private val args : MovieDetailsArgs = MovieDetailsArgs(savedStateHandle)
 
     init {
-        Log.e("okokoko",args.id.toString())
 
         getDetailsController()
     }
