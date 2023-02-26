@@ -83,10 +83,38 @@ interface MovieApi {
         apiKey : String = BuildConfig.API_KEY,
     ) : Response<SimilarMoviesResponse>
 
-    @GET("movie/{id}/credits")
-    suspend fun getActors(
-        @Path(value = "id") id : Int,
+    @GET("tv/{tvShowId}/similar")
+    suspend fun getSimilarTvShow(
+        @Path(value = "tvShowId") tvShowId : Int,
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
-    ) : Response<ActorsResponse>
+    ) : Response<SimilarTvShowResponse>
+
+    @GET("movie/{filmId}/credits")
+    suspend fun getMovieActors(
+        @Path(value = "filmId") filmId : Int,
+        @Query("api_key")
+        apiKey : String = BuildConfig.API_KEY,
+    ) : Response<MovieActorsResponse>
+
+    @GET("tv/{filmId}/credits")
+    suspend fun getTvShowActors(
+        @Path(value = "filmId") filmId : Int,
+        @Query("api_key")
+        apiKey : String = BuildConfig.API_KEY,
+    ) : Response<TvShowActorResponse>
+
+    @GET("tv/{movieId}/reviews")
+    suspend fun getMovieReview(
+        @Path(value = "movieId") movieId : Int,
+        @Query("api_key")
+        apiKey : String = BuildConfig.API_KEY,
+    ) : Response<MovieReviewResponse>
+
+    @GET("tv/{tvShowId}/reviews")
+    suspend fun getTvShowReview(
+        @Path(value = "tvShowId") tvShowId : Int,
+        @Query("api_key")
+        apiKey : String = BuildConfig.API_KEY,
+    ) : Response<TvShowReviewResponse>
 }

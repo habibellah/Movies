@@ -2,25 +2,29 @@ package habibellah.ayata.movies.ui.screens.movieDetailsScreen
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Red
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import habibellah.ayata.movies.ui.composables.HandleActorsLazyRow
-import habibellah.ayata.movies.ui.composables.MovieDetailsCard
+import habibellah.ayata.movies.R
+import habibellah.ayata.movies.ui.composables.*
 import habibellah.ayata.movies.ui.theme.white
 import habibellah.ayata.movies.ui.viewModels.MovieDetailsViewModel
 import habibellah.ayata.movies.ui.viewModels.states.MovieDetailsUiState
@@ -33,6 +37,7 @@ fun MovieDetailsScreen(
     MovieDetailsScreenContent(movieDetailsUiState)
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun MovieDetailsScreenContent(movieDetails : MovieDetailsUiState) {
     Column(
@@ -62,13 +67,23 @@ private fun MovieDetailsScreenContent(movieDetails : MovieDetailsUiState) {
             fontSize = 15.sp,
             color = Red
         )
-        Row {
+        Row (horizontalArrangement = Arrangement.SpaceEvenly){
+            Image(
+                painter = painterResource(id = R.drawable.review_star),
+                contentDescription = "review star",
+                modifier = Modifier.size(18.dp)
+            )
+            Spacer(modifier = Modifier
+                .width(5.dp)
+                .height(5.dp))
             Text(
                 text = movieDetails.voteAverage.toString(),
                 fontSize = 15.sp,
                 color = white
             )
-            Icon(imageVector = Icons.Default.Star, contentDescription = "a star")
+            Spacer(modifier = Modifier
+                .width(10.dp)
+                .height(10.dp))
             Text(
                 text = "${movieDetails.voteCount} reviews",
                 fontSize = 15.sp,
@@ -80,7 +95,7 @@ private fun MovieDetailsScreenContent(movieDetails : MovieDetailsUiState) {
             fontSize = 15.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 5.dp),
+                .padding(vertical = 10.dp),
         )
         Text(
             text = movieDetails.overView.toString(),
@@ -90,16 +105,50 @@ private fun MovieDetailsScreenContent(movieDetails : MovieDetailsUiState) {
             textAlign = TextAlign.Center
         )
         Text(
-            text = "actors", textAlign = TextAlign.Left,
+            text = "Actors", textAlign = TextAlign.Left,
             fontSize = 15.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 5.dp)
+                .padding(vertical = 10.dp)
         )
-HandleActorsLazyRow(actorsList = movieDetails.actorsList)
-        Text(text = "similar movie")
-        Text(text = "Rate the movie")
-        Text(text = "Reviews")
+        HandleActorsLazyRow(actorsList = movieDetails.actorsList)
+        Text(
+            text = "Similar Movie", textAlign = TextAlign.Left,
+            fontSize = 15.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+        )
+        HandleSimilarMoviesLazyRow(similarMovieList = movieDetails.similarMovieList)
+        Text(
+            text = "Rate The Movie", textAlign = TextAlign.Left,
+            fontSize = 15.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+        )
+        RatingBar(rating = 0, isSelectable = true)
+        Text(
+            text = "Reviews", textAlign = TextAlign.Left,
+            fontSize = 15.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+        )
+        HandleMovieReviewsLazyColumn(reviewsList = movieDetails.reviewsList)
+        Button(
+            onClick = { },
+            modifier = Modifier
+                .clip(RoundedCornerShape(40))
+                .height(50.dp)
+                .width(350.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(id = R.color.red_movie)
+            ),
+            contentPadding = PaddingValues(5.dp)
+        ) {
+            Text(text = "View All Reviews", modifier = Modifier.background(Red), fontSize = 15.sp)
+        }
     }
 }
 

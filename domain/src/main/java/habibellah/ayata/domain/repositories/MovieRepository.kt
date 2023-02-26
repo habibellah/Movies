@@ -1,9 +1,6 @@
 package habibellah.ayata.domain.repositories
 
-import habibellah.ayata.domain.entity.MovieDetailsResponse
-import habibellah.ayata.domain.entity.MovieResponse
-import habibellah.ayata.domain.entity.TvShowDetailsResponse
-import habibellah.ayata.domain.entity.TvShowsResponse
+import habibellah.ayata.domain.entity.*
 import retrofit2.Response
 
 interface MovieRepository {
@@ -13,4 +10,8 @@ interface MovieRepository {
     suspend fun getMovieDetails(movieId : Int) : Response<MovieDetailsResponse>
     suspend fun getTvShowDetails(tvShowId : Int) : Response<TvShowDetailsResponse>
     suspend fun getPopularTvShow(): Response<TvShowsResponse>
+    suspend fun getSimilarMovies(movieId : Int):Response<SimilarMoviesResponse>
+    suspend fun getSimilarTvShow(tvShowId : Int):Response<SimilarTvShowResponse>
+    suspend fun getTvShowReview(tvShowId : Int):Response<TvShowReviewResponse>
+    suspend fun getMovieReview(movieId : Int):Response<MovieReviewResponse>
 }

@@ -1,9 +1,6 @@
 package habibellah.ayata.domain.useCase
 
-import habibellah.ayata.domain.entity.MovieDetailsResponse
-import habibellah.ayata.domain.entity.MovieResponse
-import habibellah.ayata.domain.entity.TvShowDetailsResponse
-import habibellah.ayata.domain.entity.TvShowsResponse
+import habibellah.ayata.domain.entity.*
 import habibellah.ayata.domain.repositories.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -43,6 +40,30 @@ class GetMoviesUseCase(private val movieRepository : MovieRepository) {
     suspend fun getPopularTvShow():Flow<MovieState<TvShowsResponse?>>{
         return wrapWithFlow {
             movieRepository.getPopularTvShow()
+        }
+    }
+
+    suspend fun getSimilarMovies(movieId:Int):Flow<MovieState<SimilarMoviesResponse?>>{
+        return wrapWithFlow {
+            movieRepository.getSimilarMovies(movieId)
+        }
+    }
+
+    suspend fun getSimilarTvShows(tvShowId : Int):Flow<MovieState<SimilarTvShowResponse?>>{
+        return wrapWithFlow {
+            movieRepository.getSimilarTvShow(tvShowId)
+        }
+    }
+
+    suspend fun getMovieReview(movieId:Int):Flow<MovieState<MovieReviewResponse?>>{
+        return wrapWithFlow {
+            movieRepository.getMovieReview(movieId)
+        }
+    }
+
+    suspend fun getTvShowReview(tvShowId : Int):Flow<MovieState<TvShowReviewResponse?>>{
+        return wrapWithFlow {
+            movieRepository.getTvShowReview(tvShowId)
         }
     }
 

@@ -1,16 +1,23 @@
 package habibellah.ayata.domain.useCase
 
-import habibellah.ayata.domain.entity.ActorsResponse
+import habibellah.ayata.domain.entity.MovieActorsResponse
+import habibellah.ayata.domain.entity.TvShowActorResponse
 import habibellah.ayata.domain.repositories.ActorRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 
 class GetActorsUseCase(private val actorRepository : ActorRepository) {
-    suspend fun getActorsList(id : Int) : Flow<MovieState<ActorsResponse?>> {
+    suspend fun getMovieActorsList(filmId : Int) : Flow<MovieState<MovieActorsResponse?>> {
      return wrapWithFlow {
-         actorRepository.getActorsList(id)
+         actorRepository.getMovieActorsList(filmId)
      }
+    }
+
+    suspend fun getTvShowActorsList(filmId : Int) : Flow<MovieState<TvShowActorResponse?>> {
+        return wrapWithFlow {
+            actorRepository.getTvShowActorsList(filmId)
+        }
     }
 
     private fun <T> wrapWithFlow(function : suspend () -> Response<T>) : Flow<MovieState<T?>> {

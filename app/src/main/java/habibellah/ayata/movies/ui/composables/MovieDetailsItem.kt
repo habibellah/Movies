@@ -62,6 +62,14 @@ fun MovieDetailsCard(
             .clip(shape = RoundedCornerShape(5.dp))
             .clickable { onClick() }
         )
+        Row ( modifier = Modifier
+          .fillMaxWidth()
+          .padding(vertical = 5.dp),
+          horizontalArrangement = Arrangement.SpaceBetween
+        ){
+          Image(painter = painterResource(id = R.drawable.review_star), contentDescription = "iie")
+          Image(painter = painterResource(id = R.drawable.play_trailer), contentDescription = "iie")
+        }
         Column(
           modifier = Modifier
             .align(Alignment.BottomCenter)
@@ -69,12 +77,13 @@ fun MovieDetailsCard(
           verticalArrangement = Arrangement.Center,
           horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
           Button(
             onClick = { },
             modifier = Modifier
               .clip(RoundedCornerShape(50))
-              .height(45.dp)
-              .width(150.dp),
+              .height(40.dp)
+              .width(200.dp),
             colors = ButtonDefaults.buttonColors(
               backgroundColor = colorResource(id = R.color.red_movie)
             ),
