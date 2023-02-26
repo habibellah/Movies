@@ -17,11 +17,11 @@ interface MovieApi {
         apiKey : String = BuildConfig.API_KEY,
     ) : Response<MovieResponse>
 
-    @GET("trending/all/day?")
+    @GET("trending/tv/day?")
     suspend fun getTrendingMovieList(
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
-    ) : Response<MovieResponse>
+    ) : Response<TvShowsResponse>
 
     @GET("movie/{movieId}")
     suspend fun getMovieDetails(
@@ -82,4 +82,11 @@ interface MovieApi {
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
     ) : Response<SimilarMoviesResponse>
+
+    @GET("movie/{id}/credits")
+    suspend fun getActors(
+        @Path(value = "id") id : Int,
+        @Query("api_key")
+        apiKey : String = BuildConfig.API_KEY,
+    ) : Response<ActorsResponse>
 }

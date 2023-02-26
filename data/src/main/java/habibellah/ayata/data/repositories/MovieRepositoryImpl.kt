@@ -13,7 +13,7 @@ class MovieRepositoryImpl(private val movieApi : MovieApi) :
     override suspend fun getMovieListByCategory(movieCategory : String) =
         movieApi.getMovieListByCategory(movieCategory = movieCategory)
 
-    override suspend fun getTrendingMovieList() : Response<MovieResponse> =
+    override suspend fun getTrendingMovieList() : Response<TvShowsResponse> =
         movieApi.getTrendingMovieList()
 
     override suspend fun getOnTheAirTvList() : Response<MovieResponse> =

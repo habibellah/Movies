@@ -21,45 +21,54 @@ fun HomeScreen(
     viewModel : HomeViewModel = hiltViewModel(),
 ) {
     val homeState by viewModel.homeState.collectAsState()
-    HomeScreenContent(homeState) {id , filmType -> navController.navigateToMovieDetailsScreen(id!!,filmType) }
+    HomeScreenContent(homeState) { id, filmType ->
+        navController.navigateToMovieDetailsScreen(
+            id!!,
+            filmType
+        )
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun HomeScreenContent(homeState : HomeUiState, onClick : (id : Int?,filmType : ShowType) -> Unit) {
+private fun HomeScreenContent(
+    homeState : HomeUiState,
+    onClick : (id : Int?, filmType : ShowType) -> Unit
+) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp, bottom = 50.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
-            PopularMovieLazyRow(homeState.popularMovie, onClick = { id ,filmType->
-                onClick(id,filmType)
+            PopularMovieLazyRow(homeState.popularMovie, onClick = { id, filmType ->
+                onClick(id, filmType)
             })
         }
         stickyHeader {
             StickyHeader(headerText = "tv shows", null)
         }
         item {
-
-            HandleTvShowItemState(popularTvShow = homeState.popularTvShow, onClick = { id ,filmType->
-                onClick(id,filmType)
-            })
+            HandleTvShowItemState(
+                popularTvShow = homeState.popularTvShow,
+                onClick = { id, filmType ->
+                    onClick(id, filmType)
+                })
         }
         stickyHeader {
             StickyHeader(headerText = "trending", null)
         }
         item {
-            TrendingLazyRow(homeState.trending, onClick = { id ,filmType->
-                onClick(id,filmType)
+            TrendingLazyRow(homeState.trending, onClick = { id, filmType ->
+                onClick(id, filmType)
             })
         }
         stickyHeader {
             StickyHeader(headerText = "on the air")
         }
         item {
-            OnTheAirLazyRow(homeState.onTheAir, onClick = { id ,filmType->
-                onClick(id,filmType)
+            OnTheAirLazyRow(homeState.onTheAir, onClick = { id, filmType ->
+                onClick(id, filmType)
             })
         }
 
@@ -67,16 +76,16 @@ private fun HomeScreenContent(homeState : HomeUiState, onClick : (id : Int?,film
             StickyHeader(headerText = "now streaming")
         }
         item {
-            NowStreamingLazyRow(homeState.nowStreaming, onClick = { id ,filmType->
-                onClick(id,filmType)
+            NowStreamingLazyRow(homeState.nowStreaming, onClick = { id, filmType ->
+                onClick(id, filmType)
             })
         }
         stickyHeader {
             StickyHeader(headerText = "up coming")
         }
         item {
-            UpComingLazyRow(homeState.upComing, onClick = { id ,filmType->
-                onClick(id,filmType)
+            UpComingLazyRow(homeState.upComing, onClick = { id, filmType ->
+                onClick(id, filmType)
             })
         }
 
@@ -84,8 +93,8 @@ private fun HomeScreenContent(homeState : HomeUiState, onClick : (id : Int?,film
             StickyHeader(headerText = "Top Rated")
         }
         item {
-            TopRatedLazyRow(homeState.topRated, onClick = { id ,filmType->
-                onClick(id,filmType)
+            TopRatedLazyRow(homeState.topRated, onClick = { id, filmType ->
+                onClick(id, filmType)
             })
         }
     }
@@ -94,47 +103,59 @@ private fun HomeScreenContent(homeState : HomeUiState, onClick : (id : Int?,film
 @Composable
 fun PopularMovieLazyRow(
     popularMovieState : MutableList<MovieUiState>?,
-    onClick : (id : Int?,filmType : ShowType) -> Unit
+    onClick : (id : Int?, filmType : ShowType) -> Unit
 ) {
-    HandleStateForLazyRow(movieState = popularMovieState, onClick = { id,filmType ->
-        onClick(id,filmType)
+    HandleStateForLazyRow(movieState = popularMovieState, onClick = { id, filmType ->
+        onClick(id, filmType)
     }, modifier = Modifier.width(300.dp))
 }
 
 @Composable
-fun TrendingLazyRow(trendingMovies : MutableList<MovieUiState>?, onClick : (id : Int?,filmType : ShowType) -> Unit) {
-    HandleStateForLazyRow(movieState = trendingMovies, onClick = { id,filmType ->
-        onClick(id,filmType)
+fun TrendingLazyRow(
+    trendingMovies : MutableList<MovieUiState>?,
+    onClick : (id : Int?, filmType : ShowType) -> Unit
+) {
+    HandleStateForLazyRow(movieState = trendingMovies, onClick = { id, filmType ->
+        onClick(id, filmType)
     })
 }
 
 @Composable
-fun OnTheAirLazyRow(onTheAirState : MutableList<MovieUiState>?, onClick : (id : Int?,filmType : ShowType) -> Unit) {
-    HandleStateForLazyRow(movieState = onTheAirState, onClick = { id,filmType ->
-        onClick(id,filmType)
+fun OnTheAirLazyRow(
+    onTheAirState : MutableList<MovieUiState>?,
+    onClick : (id : Int?, filmType : ShowType) -> Unit
+) {
+    HandleStateForLazyRow(movieState = onTheAirState, onClick = { id, filmType ->
+        onClick(id, filmType)
     })
 }
 
 @Composable
 fun NowStreamingLazyRow(
     nowStreamingState : MutableList<MovieUiState>?,
-    onClick : (id : Int?,filmType : ShowType) -> Unit
+    onClick : (id : Int?, filmType : ShowType) -> Unit
 ) {
-    HandleStateForLazyRow(movieState = nowStreamingState, onClick = { id,filmType ->
-        onClick(id,filmType)
+    HandleStateForLazyRow(movieState = nowStreamingState, onClick = { id, filmType ->
+        onClick(id, filmType)
     })
 }
 
 @Composable
-fun UpComingLazyRow(upComingState : MutableList<MovieUiState>?, onClick : (id : Int?,filmType : ShowType) -> Unit) {
-    HandleStateForLazyRow(movieState = upComingState, onClick = { id,filmType ->
-        onClick(id,filmType)
+fun UpComingLazyRow(
+    upComingState : MutableList<MovieUiState>?,
+    onClick : (id : Int?, filmType : ShowType) -> Unit
+) {
+    HandleStateForLazyRow(movieState = upComingState, onClick = { id, filmType ->
+        onClick(id, filmType)
     })
 }
 
 @Composable
-fun TopRatedLazyRow(topRated : MutableList<MovieUiState>?, onClick : (id : Int?,filmType : ShowType) -> Unit) {
-    HandleStateForLazyRow(movieState = topRated, onClick = { id,filmType ->
-        onClick(id,filmType)
+fun TopRatedLazyRow(
+    topRated : MutableList<MovieUiState>?,
+    onClick : (id : Int?, filmType : ShowType) -> Unit
+) {
+    HandleStateForLazyRow(movieState = topRated, onClick = { id, filmType ->
+        onClick(id, filmType)
     })
 }

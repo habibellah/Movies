@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import habibellah.ayata.domain.entity.Result
-import habibellah.ayata.domain.entity.ResultX
 import habibellah.ayata.movies.ui.ShowType
 
 @HiltViewModel
@@ -70,7 +69,7 @@ class HomeViewModel @Inject constructor(private val getMoviesUseCase : GetMovies
     private fun getTrendingMovieLists() {
         viewModelScope.launch {
             getMoviesUseCase.getTrendingMovieList().collect {
-                _homeState.update { homeUiState -> homeUiState.copy(trending = handleMovieState(it)) }
+                _homeState.update { homeUiState -> homeUiState.copy(trending = handleTVState(it)) }
             }
         }
     }
@@ -132,9 +131,9 @@ class HomeViewModel @Inject constructor(private val getMoviesUseCase : GetMovies
         }?.toMutableList()
     }
 
-    private fun toTvShowList(results : List<ResultX?>?) : MutableList<MovieUiState>? {
+    private fun toTvShowList(results : List<Result>?) : MutableList<MovieUiState>? {
         return results?.map {
-            MovieUiState(it?.name, "https://image.tmdb.org/t/p/w500${it?.posterPath}", it?.id,ShowType.TV_SHOW)
+            MovieUiState(it.title, "https://image.tmdb.org/t/p/w500${it.posterPath}", it.id,ShowType.TV_SHOW)
         }?.toMutableList()
     }
 }

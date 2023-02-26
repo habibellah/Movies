@@ -5,9 +5,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import habibellah.ayata.data.movieAppDataSource.local.SharedPreferences
+import habibellah.ayata.domain.repositories.ActorRepository
 import habibellah.ayata.domain.repositories.AuthenticationRepository
 import habibellah.ayata.domain.repositories.MovieRepository
 import habibellah.ayata.domain.repositories.UserInfoRepository
+import habibellah.ayata.domain.useCase.GetActorsUseCase
 import habibellah.ayata.domain.useCase.GetMoviesUseCase
 import habibellah.ayata.domain.useCase.GetUserInfoUseCase
 import habibellah.ayata.domain.useCase.ValidateUserInfoUseCase
@@ -29,5 +31,10 @@ object UseCaseModule {
   @Provides
   fun provideValidateUserInfoUseCase(authenticationRepository : AuthenticationRepository,userInfoRepository : UserInfoRepository):ValidateUserInfoUseCase{
     return ValidateUserInfoUseCase(authenticationRepository,userInfoRepository)
+  }
+
+  @Provides
+  fun provideGetActorsUseCase(actorRepository : ActorRepository):GetActorsUseCase{
+    return GetActorsUseCase(actorRepository)
   }
 }

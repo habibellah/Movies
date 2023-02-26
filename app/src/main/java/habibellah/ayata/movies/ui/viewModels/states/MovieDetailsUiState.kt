@@ -7,6 +7,12 @@ data class MovieDetailsUiState(
     val releaseDate : String? = null,
     val genre : String? = null,
     val voteAverage : Double? = null,
-    val voteCount : Int? = null
+    val voteCount : Int? = null,
+    val actorsList:MutableList<Actor>? = mutableListOf()
+)
+
+data class Actor(
+    val name:String? = null,
+    val image:String? = null
 )
 

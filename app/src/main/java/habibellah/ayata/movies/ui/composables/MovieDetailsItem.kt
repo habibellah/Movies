@@ -25,7 +25,7 @@ import habibellah.ayata.movies.R
 import habibellah.ayata.movies.ui.viewModels.states.MovieDetailsUiState
 
 @Composable
-fun MovieDetailsItem(
+fun MovieDetailsCard(
   movieDetails: MovieDetailsUiState,
   modifier: Modifier = Modifier,
   movieResponse: Int = 0,
@@ -54,11 +54,11 @@ fun MovieDetailsItem(
               )
             }
           },
-          contentScale = ContentScale.Crop,
+          contentScale = ContentScale.FillBounds,
           contentDescription = "movie image",
           modifier = modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .heightIn(max = 400.dp)
             .clip(shape = RoundedCornerShape(5.dp))
             .clickable { onClick() }
         )
@@ -73,11 +73,12 @@ fun MovieDetailsItem(
             onClick = { },
             modifier = Modifier
               .clip(RoundedCornerShape(50))
-              .height(40.dp)
+              .height(45.dp)
               .width(150.dp),
             colors = ButtonDefaults.buttonColors(
               backgroundColor = colorResource(id = R.color.red_movie)
             ),
+            contentPadding = PaddingValues(5.dp)
           ) {
             Icon(painter = painterResource(id = R.drawable.play_trailer), contentDescription = "play icon")
             Text(text = "play trailer", modifier = Modifier.background(Color.Red), fontSize = 15.sp)

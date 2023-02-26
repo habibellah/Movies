@@ -16,7 +16,7 @@ class GetMoviesUseCase(private val movieRepository : MovieRepository) {
         }
     }
 
-    fun getTrendingMovieList() : Flow<MovieState<MovieResponse?>> {
+    fun getTrendingMovieList() : Flow<MovieState<TvShowsResponse?>> {
         return wrapWithFlow {
             movieRepository.getTrendingMovieList()
         }

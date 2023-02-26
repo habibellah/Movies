@@ -6,9 +6,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import habibellah.ayata.data.movieAppDataSource.local.SharedPreferences
 import habibellah.ayata.data.movieAppDataSource.remote.movieApi.MovieApi
+import habibellah.ayata.data.repositories.ActorRepositoryImpl
 import habibellah.ayata.data.repositories.AuthenticationRepositoryImpl
 import habibellah.ayata.data.repositories.MovieRepositoryImpl
 import habibellah.ayata.data.repositories.UserInfoRepositoryImpl
+import habibellah.ayata.domain.repositories.ActorRepository
 import habibellah.ayata.domain.repositories.AuthenticationRepository
 import habibellah.ayata.domain.repositories.MovieRepository
 import habibellah.ayata.domain.repositories.UserInfoRepository
@@ -30,5 +32,10 @@ object RepositoryModule {
   @Provides
   fun provideAuthenticationRepository(movieApi : MovieApi):AuthenticationRepository{
     return AuthenticationRepositoryImpl(movieApi)
+  }
+
+  @Provides
+  fun ProvideActorRepository(movieApi : MovieApi):ActorRepository{
+    return ActorRepositoryImpl(movieApi)
   }
 }

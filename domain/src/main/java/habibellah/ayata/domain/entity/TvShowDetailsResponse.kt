@@ -15,7 +15,7 @@ data class TvShowDetailsResponse(
     @SerializedName("first_air_date")
     val firstAirDate: String?,
     @SerializedName("genres")
-    val genres: List<GenreX>?,
+    val genres: List<Genre>?,
     @SerializedName("homepage")
     val homepage: String?,
     @SerializedName("id")
@@ -55,9 +55,9 @@ data class TvShowDetailsResponse(
     @SerializedName("production_countries")
     val productionCountries: List<Any>?,
     @SerializedName("seasons")
-    val seasons: List<SeasonX>?,
+    val seasons: List<Season>?,
     @SerializedName("spoken_languages")
-    val spokenLanguages: List<SpokenLanguageXX>?,
+    val spokenLanguages: List<SpokenLanguage>?,
     @SerializedName("status")
     val status: String?,
     @SerializedName("tagline")
