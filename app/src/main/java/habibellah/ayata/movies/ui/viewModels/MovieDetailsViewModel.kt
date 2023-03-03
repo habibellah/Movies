@@ -1,6 +1,5 @@
 package habibellah.ayata.movies.ui.viewModels
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,7 +31,6 @@ class MovieDetailsViewModel @Inject constructor(
     private val args : MovieDetailsArgs = MovieDetailsArgs(savedStateHandle)
 
     init {
-
         getDetailsController()
     }
 
@@ -136,6 +134,54 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    private fun getSimilarMovie() {
+        viewModelScope.launch {
+            getMoviesUseCase.getSimilarMovies(args.id).collect {
+                _movieDetailsUiState.update { movieDetailsUiState ->
+                    movieDetailsUiState.copy(
+                        similarMovieList = handleSimilarMovieState(it)
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getSimilarTvShow() {
+        viewModelScope.launch {
+            getMoviesUseCase.getSimilarTvShows(args.id).collect {
+                _movieDetailsUiState.update { movieDetailsUiState ->
+                    movieDetailsUiState.copy(
+                        similarMovieList = handleSimilarTvShowState(it)
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getMovieReviews() {
+        viewModelScope.launch {
+            getMoviesUseCase.getMovieReview(args.id).collect {
+                _movieDetailsUiState.update { movieDetailsUiState ->
+                    movieDetailsUiState.copy(
+                        reviewsList = handleMovieReviewsState(it)
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getTvShowReviews() {
+        viewModelScope.launch {
+            getMoviesUseCase.getTvShowReview(args.id).collect {
+                _movieDetailsUiState.update { movieDetailsUiState ->
+                    movieDetailsUiState.copy(
+                        reviewsList = handleTvShowReviewsState(it)
+                    )
+                }
+            }
+        }
+    }
+
     private fun handleMovieActorState(movieState : MovieState<MovieActorsResponse?>) : MutableList<Actor>? {
         return when (movieState) {
             is MovieState.Loading -> {
@@ -164,30 +210,6 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun toActorsList(cast : List<Cast?>?) : MutableList<Actor>? {
-        return cast?.map {
-            Actor(it?.name, it?.profilePath)
-        }?.toMutableList()
-    }
-
-    private fun toTvShowActorsList(cast : List<CastX?>?) : MutableList<Actor>? {
-        return cast?.map {
-            Actor(it?.name, it?.profilePath)
-        }?.toMutableList()
-    }
-
-    private fun getSimilarMovie() {
-        viewModelScope.launch {
-            getMoviesUseCase.getSimilarMovies(args.id).collect {
-                _movieDetailsUiState.update { movieDetailsUiState ->
-                    movieDetailsUiState.copy(
-                        similarMovieList = handleSimilarMovieState(it)
-                    )
-                }
-            }
-        }
-    }
-
     private fun handleSimilarMovieState(movieState : MovieState<SimilarMoviesResponse?>) : MutableList<SimilarMovie>? {
         return when (movieState) {
             is MovieState.Loading -> {
@@ -198,24 +220,6 @@ class MovieDetailsViewModel @Inject constructor(
             }
             else -> {
                 null
-            }
-        }
-    }
-
-    private fun toSimilarMovie(cast : List<Result?>?) : MutableList<SimilarMovie>? {
-        return cast?.map {
-            SimilarMovie(it?.posterPath)
-        }?.toMutableList()
-    }
-
-    private fun getSimilarTvShow() {
-        viewModelScope.launch {
-            getMoviesUseCase.getSimilarTvShows(args.id).collect {
-                _movieDetailsUiState.update { movieDetailsUiState ->
-                    movieDetailsUiState.copy(
-                        similarMovieList = handleSimilarTvShowState(it)
-                    )
-                }
             }
         }
     }
@@ -234,24 +238,6 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun toSimilarTvShow(cast : List<ResultX?>?) : MutableList<SimilarMovie>? {
-        return cast?.map {
-            SimilarMovie(it?.posterPath)
-        }?.toMutableList()
-    }
-
-    private fun getMovieReviews() {
-        viewModelScope.launch {
-            getMoviesUseCase.getMovieReview(args.id).collect {
-                _movieDetailsUiState.update { movieDetailsUiState ->
-                    movieDetailsUiState.copy(
-                        reviewsList = handleMovieReviewsState(it)
-                    )
-                }
-            }
-        }
-    }
-
     private fun handleMovieReviewsState(movieState : MovieState<MovieReviewResponse?>) : MutableList<Review>? {
         return when (movieState) {
             is MovieState.Loading -> {
@@ -262,30 +248,6 @@ class MovieDetailsViewModel @Inject constructor(
             }
             else -> {
                 null
-            }
-        }
-    }
-
-    private fun toMovieReviews(movieReviewResponse : MovieReviewResponse?) : MutableList<Review>? {
-        return movieReviewResponse?.results?.map {
-            Review(
-                author = it.author,
-                userName = it.authorDetails?.username,
-                rating = it.authorDetails?.rating?.toInt(),
-                avatarPath = it.authorDetails?.avatarPath,
-                reviewContent = it.content
-            )
-        }?.toMutableList()
-    }
-
-    private fun getTvShowReviews() {
-        viewModelScope.launch {
-            getMoviesUseCase.getTvShowReview(args.id).collect {
-                _movieDetailsUiState.update { movieDetailsUiState ->
-                    movieDetailsUiState.copy(
-                        reviewsList = handleTvShowReviewsState(it)
-                    )
-                }
             }
         }
     }
@@ -302,6 +264,42 @@ class MovieDetailsViewModel @Inject constructor(
                 null
             }
         }
+    }
+
+    private fun toActorsList(cast : List<Cast?>?) : MutableList<Actor>? {
+        return cast?.map {
+            Actor(it?.name, it?.profilePath)
+        }?.toMutableList()
+    }
+
+    private fun toTvShowActorsList(cast : List<CastX?>?) : MutableList<Actor>? {
+        return cast?.map {
+            Actor(it?.name, it?.profilePath)
+        }?.toMutableList()
+    }
+
+    private fun toSimilarMovie(cast : List<Result?>?) : MutableList<SimilarMovie>? {
+        return cast?.map {
+            SimilarMovie(it?.posterPath)
+        }?.toMutableList()
+    }
+
+    private fun toSimilarTvShow(cast : List<ResultX?>?) : MutableList<SimilarMovie>? {
+        return cast?.map {
+            SimilarMovie(it?.posterPath)
+        }?.toMutableList()
+    }
+
+    private fun toMovieReviews(movieReviewResponse : MovieReviewResponse?) : MutableList<Review>? {
+        return movieReviewResponse?.results?.map {
+            Review(
+                author = it.author,
+                userName = it.authorDetails?.username,
+                rating = it.authorDetails?.rating?.toInt(),
+                avatarPath = it.authorDetails?.avatarPath,
+                reviewContent = it.content
+            )
+        }?.toMutableList()
     }
 
     private fun toTvShowReviews(tvShowReviewResponse : TvShowReviewResponse?) : MutableList<Review>? {

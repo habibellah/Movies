@@ -17,6 +17,15 @@ interface MovieApi {
         apiKey : String = BuildConfig.API_KEY,
     ) : Response<MovieResponse>
 
+    @GET("movie/{movieCategory}")
+    suspend fun getMovieListByType(
+        @Path(value = "movieCategory") movieCategory : String,
+        @Query("page")
+        page : Int ,
+        @Query("api_key")
+        apiKey : String = BuildConfig.API_KEY,
+    ) : Response<MovieResponsePager>
+
     @GET("trending/tv/day?")
     suspend fun getTrendingMovieList(
         @Query("api_key")

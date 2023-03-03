@@ -31,7 +31,13 @@ class MovieRepositoryImpl(private val movieApi : MovieApi) :
     override suspend fun getSimilarTvShow(tvShowId : Int) : Response<SimilarTvShowResponse> =
         movieApi.getSimilarTvShow(tvShowId)
 
-    override suspend fun getTvShowReview(tvShowId : Int) : Response<TvShowReviewResponse> = movieApi.getTvShowReview(tvShowId)
+    override suspend fun getTvShowReview(tvShowId : Int) : Response<TvShowReviewResponse> =
+        movieApi.getTvShowReview(tvShowId)
 
-    override suspend fun getMovieReview(movieId : Int) : Response<MovieReviewResponse> = movieApi.getMovieReview(movieId)
+    override suspend fun getMovieReview(movieId : Int) : Response<MovieReviewResponse> =
+        movieApi.getMovieReview(movieId)
+
+    override suspend fun getMoviesByTypePager(movieCategory : String,page : Int) : Response<MovieResponsePager> {
+     return movieApi.getMovieListByType(page = page, movieCategory = movieCategory)
+    }
 }

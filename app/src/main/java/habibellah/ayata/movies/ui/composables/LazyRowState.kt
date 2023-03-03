@@ -11,9 +11,9 @@ import habibellah.ayata.movies.ui.ShowType
 import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
 
 @Composable
-fun HandleStateForLazyRow(
+fun LazyRowState(
     movieState : MutableList<MovieUiState>?,
-    onClick : (id : Int?,filmType : ShowType) -> Unit,
+    onClick : (id : Int?, filmType : ShowType) -> Unit,
     modifier : Modifier = Modifier
 ) {
     LazyRow(
@@ -27,15 +27,10 @@ fun HandleStateForLazyRow(
                 }
             } else {
                 AnimatedVisibility(true) {
-                    MovieItem(
-                        movieState = MovieUiState(categoryName = "loading", imageUrl = "", type = ShowType.MOVIE),
+                    ErrorMovieItem(
                         modifier = modifier
                             .fillMaxWidth()
-                            .width(150.dp),
-                        3,
-                        onClick = { id,filmType ->
-                            onClick(id,filmType)
-                        }
+                            .width(150.dp)
                     )
                 }
             }
@@ -46,9 +41,9 @@ fun HandleStateForLazyRow(
                     MovieItem(
                         movieState = it, modifier
                             .fillMaxWidth()
-                            .width(150.dp), 1,
-                        onClick =  { id,filmType ->
-                            onClick(id,filmType)
+                            .width(150.dp),
+                        onClick = { id, filmType ->
+                            onClick(id, filmType)
                         }
                     )
                 }

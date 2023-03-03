@@ -13,25 +13,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun StickyHeader(headerText: String, seeMore: String? = "see more") {
-  Row(
-    modifier = Modifier.fillMaxWidth(),
-    horizontalArrangement = Arrangement.SpaceBetween
-  ) {
-    Text(
-      text = headerText,
-      fontSize = 20.sp,
-      modifier = Modifier.padding(horizontal = 10.dp)
-    )
-    seeMore?.let {
-      Text(
-        text = it,
+fun StickyHeader(headerText : String, seeMore : String? = "see more", onClick : () -> Unit) {
+    Row(
         modifier = Modifier
-          .clickable { }
-          .padding(horizontal = 10.dp),
-        color = Color.Red
-      )
+            .fillMaxWidth()
+            .clickable { onClick()},
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = headerText,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(horizontal = 10.dp)
+        )
+        seeMore?.let {
+            Text(
+                text = it,
+                modifier = Modifier
+                    .clickable { }
+                    .padding(horizontal = 10.dp),
+                color = Color.Red
+            )
+        }
     }
-  }
 }
 

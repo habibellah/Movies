@@ -9,6 +9,7 @@ import habibellah.ayata.movies.ui.screens.loginScreen.loginRoute
 import habibellah.ayata.movies.ui.screens.movieDetailsScreen.movieDetailsRoute
 import habibellah.ayata.movies.ui.screens.profileScreen.profileRoute
 import habibellah.ayata.movies.ui.screens.searchScreen.searchRoute
+import habibellah.ayata.movies.ui.screens.seeMoreMoviesScreen.seeMoreMoviesRoute
 import habibellah.ayata.movies.ui.screens.signInScreen.singInRoute
 
 @Composable
@@ -21,5 +22,6 @@ fun MovieNavGraph(navController: NavHostController) {
     movieDetailsRoute()
     loginRoute(navController)
     singInRoute()
+    seeMoreMoviesRoute()
   }
 }

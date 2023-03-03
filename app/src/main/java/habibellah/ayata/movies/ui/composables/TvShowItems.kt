@@ -9,7 +9,7 @@ import habibellah.ayata.movies.ui.ShowType
 import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
 
 @Composable
-fun HandleTvShowItemState(
+fun TvShowItemsState(
     popularTvShow : MutableList<MovieUiState>?,
     onClick : (id : Int?, filmType : ShowType) -> Unit
 ) {
@@ -19,12 +19,12 @@ fun HandleTvShowItemState(
             .fillMaxHeight(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        HandleTvShowState(
+        TvShowState(
             tvShow = popularTvShow, onClick = onClick, modifier = Modifier
                 .height(305.dp)
                 .width(150.dp), 0
         )
-        HandleTvShowState(
+        TvShowState(
             tvShow = popularTvShow, onClick = onClick, modifier = Modifier
                 .height(305.dp)
                 .width(150.dp), 1
@@ -33,7 +33,7 @@ fun HandleTvShowItemState(
 }
 
 @Composable
-private fun HandleTvShowState(
+private fun TvShowState(
     tvShow : MutableList<MovieUiState>?,
     onClick : (id : Int?, filmType : ShowType) -> Unit,
     modifier : Modifier = Modifier,
@@ -45,15 +45,10 @@ private fun HandleTvShowState(
         }
     } else {
         AnimatedVisibility(true) {
-            MovieItem(
-                movieState = MovieUiState(categoryName = "loading", imageUrl = "", type = ShowType.TV_SHOW),
+            ErrorMovieItem(
                 modifier = modifier
                     .fillMaxWidth()
-                    .width(150.dp),
-                3,
-                onClick = { id, filmType ->
-                    onClick(id, filmType)
-                }
+                    .width(150.dp)
             )
         }
     }
@@ -62,8 +57,8 @@ private fun HandleTvShowState(
             MovieItem(
                 movieState = tvShow[numberOfTvShow], modifier
                     .fillMaxWidth()
-                    .width(150.dp), 1,
-                onClick ={ id, filmType ->
+                    .width(150.dp),
+                onClick = { id, filmType ->
                     onClick(id, filmType)
                 }
             )

@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import habibellah.ayata.movies.ui.ShowType
 import habibellah.ayata.movies.ui.composables.*
 import habibellah.ayata.movies.ui.screens.movieDetailsScreen.navigateToMovieDetailsScreen
+import habibellah.ayata.movies.ui.screens.seeMoreMoviesScreen.navigateToSeeMoreMoviesScreen
 import habibellah.ayata.movies.ui.viewModels.HomeViewModel
 import habibellah.ayata.movies.ui.viewModels.states.*
 
@@ -21,19 +22,23 @@ fun HomeScreen(
     viewModel : HomeViewModel = hiltViewModel(),
 ) {
     val homeState by viewModel.homeState.collectAsState()
-    HomeScreenContent(homeState) { id, filmType ->
-        navController.navigateToMovieDetailsScreen(
-            id!!,
-            filmType
-        )
-    }
+    HomeScreenContent(
+        homeState,
+        onSeeMoreMoviesClick = { navController.navigateToSeeMoreMoviesScreen(it) },
+        onClick = { id, filmType ->
+            navController.navigateToMovieDetailsScreen(
+                id!!,
+                filmType
+            )
+        })
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HomeScreenContent(
     homeState : HomeUiState,
-    onClick : (id : Int?, filmType : ShowType) -> Unit
+    onClick : (id : Int?, filmType : ShowType) -> Unit,
+    onSeeMoreMoviesClick : (movieType:String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -46,17 +51,21 @@ private fun HomeScreenContent(
             })
         }
         stickyHeader {
-            StickyHeader(headerText = "tv shows", null)
+            Header(headerText = "Tv Shows", "see more") {
+                onSeeMoreMoviesClick("popular")
+            }
         }
         item {
-            HandleTvShowItemState(
+            TvShowItemsState(
                 popularTvShow = homeState.popularTvShow,
                 onClick = { id, filmType ->
                     onClick(id, filmType)
                 })
         }
         stickyHeader {
-            StickyHeader(headerText = "trending", null)
+            Header(headerText = "Trending", "see more") {
+                onSeeMoreMoviesClick("popular")
+            }
         }
         item {
             TrendingLazyRow(homeState.trending, onClick = { id, filmType ->
@@ -64,7 +73,9 @@ private fun HomeScreenContent(
             })
         }
         stickyHeader {
-            StickyHeader(headerText = "on the air")
+            Header(headerText = "On The Air", "see more") {
+                onSeeMoreMoviesClick("popular")
+            }
         }
         item {
             OnTheAirLazyRow(homeState.onTheAir, onClick = { id, filmType ->
@@ -73,7 +84,9 @@ private fun HomeScreenContent(
         }
 
         stickyHeader {
-            StickyHeader(headerText = "now streaming")
+            Header(headerText = "Now Streaming", "see more") {
+                onSeeMoreMoviesClick("now_playing")
+            }
         }
         item {
             NowStreamingLazyRow(homeState.nowStreaming, onClick = { id, filmType ->
@@ -81,7 +94,9 @@ private fun HomeScreenContent(
             })
         }
         stickyHeader {
-            StickyHeader(headerText = "up coming")
+            Header(headerText = "Up Coming", "see more") {
+                onSeeMoreMoviesClick("upcoming")
+            }
         }
         item {
             UpComingLazyRow(homeState.upComing, onClick = { id, filmType ->
@@ -90,7 +105,9 @@ private fun HomeScreenContent(
         }
 
         stickyHeader {
-            StickyHeader(headerText = "Top Rated")
+            Header(headerText = "Top Rated", "see more") {
+                onSeeMoreMoviesClick("top_rated")
+            }
         }
         item {
             TopRatedLazyRow(homeState.topRated, onClick = { id, filmType ->
@@ -105,7 +122,7 @@ fun PopularMovieLazyRow(
     popularMovieState : MutableList<MovieUiState>?,
     onClick : (id : Int?, filmType : ShowType) -> Unit
 ) {
-    HandleStateForLazyRow(movieState = popularMovieState, onClick = { id, filmType ->
+    LazyRowState(movieState = popularMovieState, onClick = { id, filmType ->
         onClick(id, filmType)
     }, modifier = Modifier.width(300.dp))
 }
@@ -115,7 +132,7 @@ fun TrendingLazyRow(
     trendingMovies : MutableList<MovieUiState>?,
     onClick : (id : Int?, filmType : ShowType) -> Unit
 ) {
-    HandleStateForLazyRow(movieState = trendingMovies, onClick = { id, filmType ->
+    LazyRowState(movieState = trendingMovies, onClick = { id, filmType ->
         onClick(id, filmType)
     })
 }
@@ -125,7 +142,7 @@ fun OnTheAirLazyRow(
     onTheAirState : MutableList<MovieUiState>?,
     onClick : (id : Int?, filmType : ShowType) -> Unit
 ) {
-    HandleStateForLazyRow(movieState = onTheAirState, onClick = { id, filmType ->
+    LazyRowState(movieState = onTheAirState, onClick = { id, filmType ->
         onClick(id, filmType)
     })
 }
@@ -135,7 +152,7 @@ fun NowStreamingLazyRow(
     nowStreamingState : MutableList<MovieUiState>?,
     onClick : (id : Int?, filmType : ShowType) -> Unit
 ) {
-    HandleStateForLazyRow(movieState = nowStreamingState, onClick = { id, filmType ->
+    LazyRowState(movieState = nowStreamingState, onClick = { id, filmType ->
         onClick(id, filmType)
     })
 }
@@ -145,7 +162,7 @@ fun UpComingLazyRow(
     upComingState : MutableList<MovieUiState>?,
     onClick : (id : Int?, filmType : ShowType) -> Unit
 ) {
-    HandleStateForLazyRow(movieState = upComingState, onClick = { id, filmType ->
+    LazyRowState(movieState = upComingState, onClick = { id, filmType ->
         onClick(id, filmType)
     })
 }
@@ -155,7 +172,7 @@ fun TopRatedLazyRow(
     topRated : MutableList<MovieUiState>?,
     onClick : (id : Int?, filmType : ShowType) -> Unit
 ) {
-    HandleStateForLazyRow(movieState = topRated, onClick = { id, filmType ->
+    LazyRowState(movieState = topRated, onClick = { id, filmType ->
         onClick(id, filmType)
     })
 }
