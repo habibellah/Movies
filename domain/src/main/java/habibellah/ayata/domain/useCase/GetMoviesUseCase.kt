@@ -14,19 +14,31 @@ class GetMoviesUseCase(private val movieRepository : MovieRepository) {
         }
     }
 
-   suspend fun getMoviesByTypePager(movieCategory : String, page:Int): kotlin.Result<Flow<MovieState<MovieResponsePager?>>>{
+   suspend fun getMoviesByTypePager(movieCategory : String, page:Int): kotlin.Result<Flow<MovieState<MovieResponse?>>>{
        return wrapWithFlowPager {
            movieRepository.getMoviesByTypePager(movieCategory, page)
        }
     }
 
-    fun getTrendingMovieList() : Flow<MovieState<TvShowsResponse?>> {
+    suspend fun getTrendingPager(page:Int): kotlin.Result<Flow<MovieState<MovieResponse?>>>{
+        return wrapWithFlowPager {
+            movieRepository.getTrendingPager(page)
+        }
+    }
+
+    suspend fun getOnTheAirPager(page:Int): kotlin.Result<Flow<MovieState<TvShowsResponse?>>>{
+        return wrapWithFlowPager {
+            movieRepository.getOnTheAirPager( page)
+        }
+    }
+
+    fun getTrendingMovieList() : Flow<MovieState<MovieResponse?>> {
         return wrapWithFlow {
             movieRepository.getTrendingMovieList()
         }
     }
 
-    fun getOnTheAirTvList() : Flow<MovieState<MovieResponse?>> {
+    fun getOnTheAirTvList() : Flow<MovieState<TvShowsResponse?>> {
         return wrapWithFlow {
             movieRepository.getOnTheAirTvList()
         }

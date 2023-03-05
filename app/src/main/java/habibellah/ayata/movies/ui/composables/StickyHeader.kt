@@ -16,8 +16,7 @@ import androidx.compose.ui.unit.sp
 fun StickyHeader(headerText : String, seeMore : String? = "see more", onClick : () -> Unit) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick()},
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
@@ -29,8 +28,8 @@ fun StickyHeader(headerText : String, seeMore : String? = "see more", onClick : 
             Text(
                 text = it,
                 modifier = Modifier
-                    .clickable { }
-                    .padding(horizontal = 10.dp),
+                    .padding(horizontal = 10.dp)
+                    .clickable { onClick() },
                 color = Color.Red
             )
         }

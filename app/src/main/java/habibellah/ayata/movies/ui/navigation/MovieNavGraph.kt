@@ -22,6 +22,6 @@ fun MovieNavGraph(navController: NavHostController) {
     movieDetailsRoute()
     loginRoute(navController)
     singInRoute()
-    seeMoreMoviesRoute()
+    seeMoreMoviesRoute(navController)
   }
 }

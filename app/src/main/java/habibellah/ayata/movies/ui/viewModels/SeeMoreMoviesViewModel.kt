@@ -1,5 +1,6 @@
 package habibellah.ayata.movies.ui.viewModels
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,16 +9,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import habibellah.ayata.domain.DefaultPaginator
-import habibellah.ayata.domain.entity.MovieResponsePager
-import habibellah.ayata.domain.entity.Result
+import habibellah.ayata.domain.entity.MovieResponse
+import habibellah.ayata.domain.entity.TvShowsResponse
 import habibellah.ayata.domain.useCase.GetMoviesUseCase
 import habibellah.ayata.domain.useCase.MovieState
 import habibellah.ayata.movies.ui.ShowType
 import habibellah.ayata.movies.ui.screens.seeMoreMoviesScreen.SeeMoreMovieArgs
 import habibellah.ayata.movies.ui.viewModels.states.MovieUiState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Suppress("UNCHECKED_CAST")
 @HiltViewModel
 class SeeMoreMoviesViewModel @Inject constructor(
     private val getMoviesUseCase : GetMoviesUseCase,
@@ -25,13 +28,19 @@ class SeeMoreMoviesViewModel @Inject constructor(
 ) : ViewModel() {
     var state by mutableStateOf(ScreenState())
     private val args : SeeMoreMovieArgs = SeeMoreMovieArgs(savedStateHandle)
-    private val paginator = DefaultPaginator(
+
+    @SuppressLint("SuspiciousIndentation")
+    private val pagination = DefaultPaginator(
         initialKey = state.page,
         onLoadUpdated = {
             state = state.copy(isLoading = it)
         },
         onRequest = { nextPage ->
-            getMoviesUseCase.getMoviesByTypePager(movieCategory = args.movieType, page = nextPage)
+            if (args.filmType == ShowType.MOVIE) {
+                getMoviesPagerType(nextPage)
+            } else {
+                getTvShowsPagerType(nextPage)
+            }
         },
         getNextKey = {
             state.page + 1
@@ -40,18 +49,51 @@ class SeeMoreMoviesViewModel @Inject constructor(
             state = state.copy(error = it?.localizedMessage)
         },
         onSuccess = { items, newKey ->
-            items.collect {
-                val itemsaaa : MutableList<MovieUiState> = mutableListOf()
-                handleMovieState(it)?.let { it1 -> itemsaaa.addAll(it1) }
-                val itemsaa = state.movieList + itemsaaa
-                state = state.copy(
-                    movieList = itemsaa,
-                    page = newKey,
-                    endReached = itemsaa.isEmpty()
-                )
+            if (args.filmType == ShowType.MOVIE) {
+                items.collect {
+                    val initItems : MutableList<MovieUiState> = mutableListOf()
+                    Handlers.handleMovieState(it as MovieState<MovieResponse?>)?.let { it1 ->
+                        initItems.addAll(
+                            it1
+                        )
+                    }
+                    val movieItems = state.movieList + initItems
+                    state = state.copy(
+                        movieList = movieItems,
+                        page = newKey,
+                        endReached = movieItems.isEmpty()
+                    )
+                }
+            } else {
+                items.collect {
+                    val initItems : MutableList<MovieUiState> = mutableListOf()
+                    Handlers.handleTVState(it as MovieState<TvShowsResponse?>)?.let { it1 ->
+                        initItems.addAll(
+                            it1
+                        )
+                    }
+                    val tvShowItems = state.movieList + initItems
+                    state = state.copy(
+                        movieList = tvShowItems,
+                        page = newKey,
+                        endReached = tvShowItems.isEmpty()
+                    )
+                }
             }
         }
     )
+
+    private suspend fun getTvShowsPagerType(nextPage : Int) : Result<Flow<MovieState<TvShowsResponse?>>> {
+        return getMoviesUseCase.getOnTheAirPager(nextPage)
+    }
+
+    private suspend fun getMoviesPagerType(nextPage : Int) : Result<Flow<MovieState<MovieResponse?>>> {
+        return if (args.movieType == "trending") {
+            getMoviesUseCase.getTrendingPager(page = nextPage)
+        } else {
+            getMoviesUseCase.getMoviesByTypePager(movieCategory = args.movieType, page = nextPage)
+        }
+    }
 
     init {
         loadNextItems()
@@ -59,30 +101,7 @@ class SeeMoreMoviesViewModel @Inject constructor(
 
     fun loadNextItems() {
         viewModelScope.launch {
-            paginator.loadNextItems()
-        }
-    }
-
-    private fun toMovieList(results : List<Result?>?) : List<MovieUiState>? {
-        return results?.map {
-            MovieUiState(
-                it?.title, "https://image.tmdb.org/t/p/w500${it?.posterPath}", it?.id,
-                ShowType.MOVIE
-            )
-        }?.toList()
-    }
-
-    private fun handleMovieState(movieState : MovieState<MovieResponsePager?>) : List<MovieUiState>? {
-        return when (movieState) {
-            is MovieState.Loading -> {
-                mutableListOf()
-            }
-            is MovieState.Success -> {
-                toMovieList(movieState.data?.results)
-            }
-            else -> {
-                null
-            }
+            pagination.loadNextItems()
         }
     }
 }

@@ -13,24 +13,20 @@ interface MovieApi {
     @GET("movie/{movieCategory}")
     suspend fun getMovieListByCategory(
         @Path(value = "movieCategory") movieCategory : String,
+        @Query("page")
+        page : Int = 1,
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
     ) : Response<MovieResponse>
 
-    @GET("movie/{movieCategory}")
-    suspend fun getMovieListByType(
-        @Path(value = "movieCategory") movieCategory : String,
-        @Query("page")
-        page : Int ,
-        @Query("api_key")
-        apiKey : String = BuildConfig.API_KEY,
-    ) : Response<MovieResponsePager>
 
-    @GET("trending/tv/day?")
+    @GET("trending/movie/day?")
     suspend fun getTrendingMovieList(
+        @Query("page")
+        page : Int = 1,
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
-    ) : Response<TvShowsResponse>
+    ) : Response<MovieResponse>
 
     @GET("movie/{movieId}")
     suspend fun getMovieDetails(
@@ -41,9 +37,11 @@ interface MovieApi {
 
     @GET("tv/on_the_air")
     suspend fun getOnTheAirTvList(
+        @Query("page")
+        page : Int = 1,
         @Query("api_key")
         apiKey : String = BuildConfig.API_KEY,
-    ) : Response<MovieResponse>
+    ) : Response<TvShowsResponse>
 
     @GET("tv/{tvId}")
     suspend fun getTvShowDetails(

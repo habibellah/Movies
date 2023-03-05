@@ -10,10 +10,10 @@ class MovieRepositoryImpl(private val movieApi : MovieApi) :
     override suspend fun getMovieListByCategory(movieCategory : String) =
         movieApi.getMovieListByCategory(movieCategory = movieCategory)
 
-    override suspend fun getTrendingMovieList() : Response<TvShowsResponse> =
+    override suspend fun getTrendingMovieList() : Response<MovieResponse> =
         movieApi.getTrendingMovieList()
 
-    override suspend fun getOnTheAirTvList() : Response<MovieResponse> =
+    override suspend fun getOnTheAirTvList() : Response<TvShowsResponse> =
         movieApi.getOnTheAirTvList()
 
     override suspend fun getMovieDetails(movieId : Int) : Response<MovieDetailsResponse> =
@@ -37,7 +37,22 @@ class MovieRepositoryImpl(private val movieApi : MovieApi) :
     override suspend fun getMovieReview(movieId : Int) : Response<MovieReviewResponse> =
         movieApi.getMovieReview(movieId)
 
-    override suspend fun getMoviesByTypePager(movieCategory : String,page : Int) : Response<MovieResponsePager> {
-     return movieApi.getMovieListByType(page = page, movieCategory = movieCategory)
+    override suspend fun getMoviesByTypePager(
+        movieCategory : String,
+        page : Int
+    ) : Response<MovieResponse> {
+        return movieApi.getMovieListByCategory(page = page, movieCategory = movieCategory)
+    }
+
+    override suspend fun getTrendingPager(
+        page : Int
+    ) : Response<MovieResponse> {
+        return movieApi.getTrendingMovieList(page = page)
+    }
+
+    override suspend fun getOnTheAirPager(
+        page : Int
+    ) : Response<TvShowsResponse> {
+        return movieApi.getOnTheAirTvList(page = page)
     }
 }

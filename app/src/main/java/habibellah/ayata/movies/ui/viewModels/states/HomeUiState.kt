@@ -13,7 +13,7 @@ data class HomeUiState(
 )
 
 class MovieUiState(
-    val categoryName : String? = null,
+    val movieName : String? = null,
     val imageUrl : String? = null,
     val id : Int? = null,
     val type : ShowType

@@ -24,7 +24,12 @@ fun HomeScreen(
     val homeState by viewModel.homeState.collectAsState()
     HomeScreenContent(
         homeState,
-        onSeeMoreMoviesClick = { navController.navigateToSeeMoreMoviesScreen(it) },
+        onSeeMoreMoviesClick = { movieType, filmType ->
+            navController.navigateToSeeMoreMoviesScreen(
+                movieType,
+                filmType
+            )
+        },
         onClick = { id, filmType ->
             navController.navigateToMovieDetailsScreen(
                 id!!,
@@ -38,7 +43,7 @@ fun HomeScreen(
 private fun HomeScreenContent(
     homeState : HomeUiState,
     onClick : (id : Int?, filmType : ShowType) -> Unit,
-    onSeeMoreMoviesClick : (movieType:String) -> Unit
+    onSeeMoreMoviesClick : (movieType : String, filmType : ShowType) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -51,8 +56,8 @@ private fun HomeScreenContent(
             })
         }
         stickyHeader {
-            Header(headerText = "Tv Shows", "see more") {
-                onSeeMoreMoviesClick("popular")
+            Header(headerText = "Popular Tv Shows", null) {
+                onSeeMoreMoviesClick("popular", ShowType.TV_SHOW)
             }
         }
         item {
@@ -63,8 +68,8 @@ private fun HomeScreenContent(
                 })
         }
         stickyHeader {
-            Header(headerText = "Trending", "see more") {
-                onSeeMoreMoviesClick("popular")
+            Header(headerText = "Trending Movies", "see more") {
+                onSeeMoreMoviesClick("trending", ShowType.MOVIE)
             }
         }
         item {
@@ -73,8 +78,8 @@ private fun HomeScreenContent(
             })
         }
         stickyHeader {
-            Header(headerText = "On The Air", "see more") {
-                onSeeMoreMoviesClick("popular")
+            Header(headerText = "On The Air Tv Show", "see more") {
+                onSeeMoreMoviesClick("on_the_air", ShowType.TV_SHOW)
             }
         }
         item {
@@ -84,8 +89,8 @@ private fun HomeScreenContent(
         }
 
         stickyHeader {
-            Header(headerText = "Now Streaming", "see more") {
-                onSeeMoreMoviesClick("now_playing")
+            Header(headerText = "Now Streaming Movies", "see more") {
+                onSeeMoreMoviesClick("now_playing", ShowType.MOVIE)
             }
         }
         item {
@@ -94,8 +99,8 @@ private fun HomeScreenContent(
             })
         }
         stickyHeader {
-            Header(headerText = "Up Coming", "see more") {
-                onSeeMoreMoviesClick("upcoming")
+            Header(headerText = "Up Coming Movies", "see more") {
+                onSeeMoreMoviesClick("upcoming", ShowType.MOVIE)
             }
         }
         item {
@@ -105,8 +110,8 @@ private fun HomeScreenContent(
         }
 
         stickyHeader {
-            Header(headerText = "Top Rated", "see more") {
-                onSeeMoreMoviesClick("top_rated")
+            Header(headerText = "Top Rated Movies", "see more") {
+                onSeeMoreMoviesClick("top_rated", ShowType.MOVIE)
             }
         }
         item {

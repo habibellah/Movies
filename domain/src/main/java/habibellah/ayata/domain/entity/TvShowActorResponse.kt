@@ -7,7 +7,7 @@ data class TvShowActorResponse(
     @SerializedName("cast")
     val cast: List<CastX>?,
     @SerializedName("crew")
-    val crew: List<CrewX>?,
+    val crew: List<Crew>?,
     @SerializedName("id")
     val id: Int?
 )

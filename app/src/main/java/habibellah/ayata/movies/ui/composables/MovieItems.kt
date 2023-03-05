@@ -50,7 +50,7 @@ fun MovieItem(
                     .clip(shape = RoundedCornerShape(30.dp))
                     .clickable { onClick(movieState.id, movieState.type) }
             )
-            movieState.categoryName?.let {
+            movieState.movieName?.let {
                 Text(
                     text = it, modifier = Modifier
                         .align(Alignment.BottomStart)

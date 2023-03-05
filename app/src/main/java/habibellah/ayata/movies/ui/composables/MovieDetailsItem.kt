@@ -67,8 +67,8 @@ fun MovieDetailsCard(
           .padding(vertical = 5.dp),
           horizontalArrangement = Arrangement.SpaceBetween
         ){
-          Image(painter = painterResource(id = R.drawable.review_star), contentDescription = "iie")
-          Image(painter = painterResource(id = R.drawable.play_trailer), contentDescription = "iie")
+          Image(painter = painterResource(id = R.drawable.back_arrow), contentDescription = "iie")
+          Image(painter = painterResource(id = R.drawable.save_item), contentDescription = "iie")
         }
         Column(
           modifier = Modifier
