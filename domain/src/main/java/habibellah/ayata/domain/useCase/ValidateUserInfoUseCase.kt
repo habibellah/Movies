@@ -5,7 +5,6 @@ import habibellah.ayata.domain.repositories.AuthenticationRepository
 import habibellah.ayata.domain.repositories.UserInfoRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Response
 
 class ValidateUserInfoUseCase(
     private val authenticationRepository : AuthenticationRepository,
@@ -70,26 +69,6 @@ class ValidateUserInfoUseCase(
             AuthenticationState.Success
         } else {
             AuthenticationState.Error
-        }
-    }
-
-    private fun <T> wrapWithFlow(
-        doAfterSuccess : () -> Unit,
-        function : suspend () -> Response<T>
-    ) : Flow<MovieState<T?>> {
-        return flow {
-            emit(MovieState.Loading)
-            try {
-                val result = function()
-                if (result.isSuccessful) {
-                    emit(MovieState.Success(result.body()))
-                    doAfterSuccess()
-                } else {
-                    emit(MovieState.Error(result.message()))
-                }
-            } catch (e : Exception) {
-                emit(MovieState.Error(e.message.toString()))
-            }
         }
     }
 }

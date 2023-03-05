@@ -1,6 +1,5 @@
 package habibellah.ayata.movies.ui.viewModels
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import habibellah.ayata.domain.DefaultPaginator
+import habibellah.ayata.domain.pagination.DefaultPagination
 import habibellah.ayata.domain.entity.MovieResponse
 import habibellah.ayata.domain.entity.TvShowsResponse
 import habibellah.ayata.domain.useCase.GetMoviesUseCase
@@ -28,9 +27,7 @@ class SeeMoreMoviesViewModel @Inject constructor(
 ) : ViewModel() {
     var state by mutableStateOf(ScreenState())
     private val args : SeeMoreMovieArgs = SeeMoreMovieArgs(savedStateHandle)
-
-    @SuppressLint("SuspiciousIndentation")
-    private val pagination = DefaultPaginator(
+    private val pagination = DefaultPagination(
         initialKey = state.page,
         onLoadUpdated = {
             state = state.copy(isLoading = it)
@@ -49,9 +46,9 @@ class SeeMoreMoviesViewModel @Inject constructor(
             state = state.copy(error = it?.localizedMessage)
         },
         onSuccess = { items, newKey ->
+            val initItems : MutableList<MovieUiState> = mutableListOf()
             if (args.filmType == ShowType.MOVIE) {
                 items.collect {
-                    val initItems : MutableList<MovieUiState> = mutableListOf()
                     Handlers.handleMovieState(it as MovieState<MovieResponse?>)?.let { it1 ->
                         initItems.addAll(
                             it1
@@ -66,7 +63,6 @@ class SeeMoreMoviesViewModel @Inject constructor(
                 }
             } else {
                 items.collect {
-                    val initItems : MutableList<MovieUiState> = mutableListOf()
                     Handlers.handleTVState(it as MovieState<TvShowsResponse?>)?.let { it1 ->
                         initItems.addAll(
                             it1

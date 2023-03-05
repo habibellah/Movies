@@ -1,16 +1,16 @@
-package habibellah.ayata.domain
+package habibellah.ayata.domain.pagination
 
 import habibellah.ayata.domain.useCase.MovieState
 import kotlinx.coroutines.flow.Flow
 
-class DefaultPaginator<Key, Item>(
+class DefaultPagination<Key, Item>(
     private val initialKey : Key,
     private inline val onLoadUpdated : (Boolean) -> Unit,
     private inline val onRequest : suspend (nextKey : Key) -> Result<Flow<MovieState<Item>>>,
     private inline val getNextKey : suspend (Flow<MovieState<Item>>) -> Key,
     private inline val onError : suspend (Throwable?) -> Unit,
     private inline val onSuccess : suspend (items : Flow<MovieState<Item>>, newKey : Key) -> Unit
-) : Paginator<Key, Item> {
+) : Pagination<Key, Item> {
     private var currentKey = initialKey
     private var isMakingRequest = false
 
