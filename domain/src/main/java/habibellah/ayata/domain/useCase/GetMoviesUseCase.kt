@@ -3,9 +3,9 @@ package habibellah.ayata.domain.useCase
 
 import habibellah.ayata.domain.entity.*
 import habibellah.ayata.domain.repositories.MovieRepository
+import habibellah.ayata.domain.useCase.Wrapper.wrapWithFlow
+import habibellah.ayata.domain.useCase.Wrapper.wrapWithFlowPager
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import retrofit2.Response
 
 class GetMoviesUseCase(private val movieRepository : MovieRepository) {
     fun getMovieListByCategory(movieCategory : String) : Flow<MovieState<MovieResponse?>> {
@@ -84,37 +84,5 @@ class GetMoviesUseCase(private val movieRepository : MovieRepository) {
         return wrapWithFlow {
             movieRepository.getTvShowReview(tvShowId)
         }
-    }
-
-    private fun <T> wrapWithFlow(function : suspend () -> Response<T>) : Flow<MovieState<T?>> {
-        return flow {
-            emit(MovieState.Loading)
-            try {
-                val result = function()
-                if (result.isSuccessful) {
-                    emit(MovieState.Success(result.body()))
-                } else {
-                    emit(MovieState.Error(result.message()))
-                }
-            } catch (e : Exception) {
-                emit(MovieState.Error(e.message.toString()))
-            }
-        }
-    }
-
-    private fun <T> wrapWithFlowPager(function : suspend () -> Response<T>) : kotlin.Result<Flow<MovieState<T?>>> {
-        return kotlin.Result.success(flow {
-            emit(MovieState.Loading)
-            try {
-                val result = function()
-                if (result.isSuccessful) {
-                    emit(MovieState.Success(result.body()))
-                } else {
-                    emit(MovieState.Error(result.message()))
-                }
-            } catch (e : Exception) {
-                emit(MovieState.Error(e.message.toString()))
-            }
-        })
     }
 }
